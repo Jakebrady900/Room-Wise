@@ -11,9 +11,5 @@ public class RoomWiseApplication {
         SpringApplication.run(RoomWiseApplication.class, args);
     }
 
-    @GetMapping("/")
-    public String WelcomeMessage() {
-        return "Welcome to Room-Wise!";
-    }
 
 }
