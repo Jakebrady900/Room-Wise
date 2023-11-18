@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Home {
-    @GetMapping("/Home")
+    @GetMapping("/home")
     public String WelcomeMessage() {
         return "Welcome to Room-Wise!";
     }
