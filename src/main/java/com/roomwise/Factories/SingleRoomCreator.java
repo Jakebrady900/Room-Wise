@@ -1,0 +1,10 @@
+package com.roomwise.Factories;
+
+import com.roomwise.Models.Room;
+
+public class SingleRoomCreator implements RoomFactory {
+    @Override
+    public Room createRoom() {
+        return null;
+    }
+}
