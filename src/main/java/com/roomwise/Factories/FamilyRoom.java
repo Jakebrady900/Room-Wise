@@ -4,8 +4,16 @@ import com.roomwise.Models.Room;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class FamilyRoom extends Room {
+
+    public FamilyRoom(int roomID) {
+        set_roomID(roomID);
+        set_roomClassification(new StandardRoom());
+        set_roomContents(List.of("Double Bed", "Single Bed", "Single Bed"));
+    }
+
     @Override
     public boolean isOccupied(Date date) {
         return false;
@@ -13,7 +21,7 @@ public class FamilyRoom extends Room {
 
     @Override
     public String displayDetails() {
-        return null;
+        return this.toString();
     }
 
     @Override
@@ -23,10 +31,19 @@ public class FamilyRoom extends Room {
 
     @Override
     public void upgradeRoom() {
+    }
 
+    @Override
+    public String toHTMLString() {
+        return "Family Room <br>" +
+                "_".repeat(80) + "<br>" +
+                "Room Number: " + get_roomID() + "<br>" +
+                "Room Classification: " + get_roomClassification().toString() + "<br>" +
+                "Contents: " + get_roomContents().toString() + "<br>" +
+                "_".repeat(80) + "<br>";
     }
 
     public void addCrib() {
-
+        get_roomContents().add("Crib");
     }
 }
