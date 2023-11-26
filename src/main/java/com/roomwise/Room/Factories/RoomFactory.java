@@ -1,4 +1,4 @@
-package com.roomwise.Factories;
+package com.roomwise.Room.Factories;
 
 import com.roomwise.Models.Room;
 

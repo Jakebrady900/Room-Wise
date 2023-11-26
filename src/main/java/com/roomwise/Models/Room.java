@@ -1,48 +1,44 @@
 package com.roomwise.Models;
 
-import com.roomwise.Factories.StandardRoom;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import com.roomwise.Room.RoomType.RoomType;
 
-public abstract class Room {
-    private Integer _roomID;
-    private RoomClassification _roomClassification;
-    private List<String> _roomContents;
+public class Room {
 
+    private Long id;
+    private Integer roomNumber;
+    private final RoomType _roomType;
 
-    public abstract boolean isOccupied(Date date);
-
-    public abstract String displayDetails();
-
-    public abstract BigDecimal getCharge();
-
-    public abstract void upgradeRoom();
-
-    public abstract String toHTMLString();
-
-    public Integer get_roomID() {
-        return _roomID;
+    public Room(RoomType roomType, Integer roomNumber) {
+        setRoomNumber(roomNumber);
+        _roomType = roomType;
     }
 
-    public void set_roomID(Integer _roomID) {
-        this._roomID = _roomID;
+    public String displayInfo() {
+        return "Room Type: " + getRoomType() + "<br>" +
+                "_".repeat(50) + "<br>" +
+                "Room Number: " + getRoomNumber() + "<br>" +
+                _roomType.getInfo() + "<br>" +
+                "_".repeat(50) + "<br>";
     }
 
-    public RoomClassification get_roomClassification() {
-        return _roomClassification;
+    public Long getId() {
+        return id;
     }
 
-    public void set_roomClassification(RoomClassification _roomClassification) {
-        this._roomClassification = _roomClassification;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public List<String> get_roomContents() {
-        return _roomContents;
+    public Integer getRoomNumber() {
+        return roomNumber;
     }
 
-    public void set_roomContents(List<String> _roomContents) {
-        this._roomContents = _roomContents;
+    public void setRoomNumber(Integer roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public String getRoomType() {
+        return _roomType.getClass().getSimpleName();
     }
 }
