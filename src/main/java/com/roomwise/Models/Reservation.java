@@ -1,8 +1,7 @@
 package com.roomwise.Models;
 
-
 import java.time.LocalDate;
-
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +15,8 @@ import lombok.Data;
 @Entity
 public class Reservation {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long reservationId;
 
 	private LocalDate checkinDate;
@@ -25,6 +25,8 @@ public class Reservation {
 
 	private Integer noOfPerson;
 
-    private Integer noOfRooms;
+	private Integer noOfRooms;
+
+	private List<Integer> RoomsNumber;
 
 }

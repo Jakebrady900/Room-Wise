@@ -5,8 +5,8 @@ import com.roomwise.Repositories.ReservationDAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,17 +16,8 @@ public class ReservationService {
     @Autowired
     private ReservationDAO reservationRepository;
 
-    public Reservation makeReservation(LocalDate checkinDate, LocalDate checkoutDate, Integer noOfPerson, Integer noOfRooms) {
-        Reservation reservation = new Reservation();
-        reservation.setCheckinDate(checkinDate);
-        reservation.setCheckoutDate(checkoutDate);
-        reservation.setNoOfPerson(noOfPerson);
-        reservation.setNoOfRooms(noOfRooms);
-        return reservationRepository.save(reservation);
-    }
-
-    public void cancelReservation(Long reservationId) {
-        reservationRepository.deleteById(reservationId);
+    public void saveReservation(@RequestBody Reservation reservation) {
+        reservationRepository.save(reservation);
     }
 
     public List<Reservation> showReservations() {
@@ -37,5 +28,8 @@ public class ReservationService {
         return reservationRepository.findById(reservationId);
     }
 
- 
+    public void cancelReservation(Long reservationId) {
+        reservationRepository.deleteById(reservationId);
+    }
+
 }
