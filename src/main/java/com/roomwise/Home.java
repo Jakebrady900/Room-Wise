@@ -1,11 +1,13 @@
 package com.roomwise;
 
-import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+
 public class Home {
-    @GetMapping("/home")
+    @RequestMapping("/home")
     public String WelcomeMessage() {
         return "Welcome to Room-Wise!";
     }
