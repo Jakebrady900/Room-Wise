@@ -1,4 +1,4 @@
-package com.roomwise.DTO;
+package com.roomwise.Services;
 
 public class payment {
     // Component interface representing the Payment
