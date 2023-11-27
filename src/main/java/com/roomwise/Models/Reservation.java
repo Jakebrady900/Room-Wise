@@ -29,4 +29,9 @@ public class Reservation {
 
 	private List<Integer> RoomsNumber;
 
+
+	//need a type to determine role 
+	//connect to rest of the app rooms/customer 
+
+
 }

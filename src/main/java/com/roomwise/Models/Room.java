@@ -1,19 +1,44 @@
 package com.roomwise.Models;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
-public abstract class Room {
-    private Integer _roomID;
-    private RoomClassification _roomClassification;
-    private List<String> _roomContents;
+import com.roomwise.Room.RoomType.RoomType;
 
-    public abstract boolean isOccupied(Date date);
+public class Room {
 
-    public abstract String displayDetails();
+    private Long id;
+    private Integer roomNumber;
+    private final RoomType _roomType;
 
-    public abstract BigDecimal getCharge();
+    public Room(RoomType roomType, Integer roomNumber) {
+        setRoomNumber(roomNumber);
+        _roomType = roomType;
+    }
 
-    public abstract void upgradeRoom();
+    public String displayInfo() {
+        return "Room Type: " + getRoomType() + "<br>" +
+                "_".repeat(50) + "<br>" +
+                "Room Number: " + getRoomNumber() + "<br>" +
+                _roomType.getInfo() + "<br>" +
+                "_".repeat(50) + "<br>";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(Integer roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public String getRoomType() {
+        return _roomType.getClass().getSimpleName();
+    }
 }
