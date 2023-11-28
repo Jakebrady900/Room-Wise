@@ -1,0 +1,38 @@
+package com.roomwise.Controllers;
+
+import com.roomwise.Models.Customer;
+import com.roomwise.Services.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/customers")
+public class CustomerController {
+
+    @Autowired
+    private CustomerService customerService;
+
+    @PostMapping("/register")
+    public String makeCustomer(@RequestBody Customer resrvation) {
+        customerService.saveCustomer(resrvation);
+        return "saved sucessfully";
+    }
+
+    @GetMapping("/getAllCustomers")
+    public List<Customer> getAllCustomer() {
+        return customerService.showCustomers();
+    }
+
+    @GetMapping("/getRes/{id}")
+    public String getCustomerByID(@PathVariable Long Id) {
+        if (customerService.findCustomerById(Id).isPresent()) {
+            return "reserved : " + customerService.findCustomerById(Id).get();
+        } else {
+            return "no such customer";
+        }
+    }
+
+}
