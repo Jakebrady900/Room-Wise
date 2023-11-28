@@ -20,16 +20,16 @@ public class CustomerController {
         customerService.saveCustomer(resrvation);
         return "saved sucessfully";
     }
-
+    
     @GetMapping("/getAllCustomers")
     public List<Customer> getAllCustomer() {
         return customerService.showCustomers();
     }
 
-    @GetMapping("/getRes/{id}")
+    @GetMapping("/getCustomer/{id}")
     public String getCustomerByID(@PathVariable Long Id) {
         if (customerService.findCustomerById(Id).isPresent()) {
-            return "reserved : " + customerService.findCustomerById(Id).get();
+            return "Found : " + customerService.findCustomerById(Id).get();
         } else {
             return "no such customer";
         }

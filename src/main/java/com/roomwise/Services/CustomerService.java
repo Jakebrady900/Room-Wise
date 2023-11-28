@@ -27,7 +27,7 @@ public class CustomerService {
     public Optional<Customer> findCustomerById(Long customerId) {
         return customerRepository.findById(customerId);
     }
-
+   
     public void deleteCustomer(Long customerId) {
         customerRepository.deleteById(customerId);
     }
