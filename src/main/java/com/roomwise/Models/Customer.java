@@ -18,7 +18,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Entity
-public class Customer implements UserDetails {
+public class Customer {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
