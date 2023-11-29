@@ -35,4 +35,9 @@ public class CustomerController {
         }
     }
 
+     //Admin
+    public String sendNotification(@PathVariable Customer customer , String message) {
+       return customerService.sendNotificationToCustomer(customer, message);
+    }
+
 }
