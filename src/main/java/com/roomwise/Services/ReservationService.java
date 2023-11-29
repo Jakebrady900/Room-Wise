@@ -1,22 +1,23 @@
 package com.roomwise.Services;
 
-import com.roomwise.Models.Reservation;
+import com.roomwise.Models.Room;
+import com.roomwise.ObservePayments.Observer;
+import com.roomwise.ObservePayments.Subject;
 import com.roomwise.Repositories.ReservationDAO;
 
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReservationService {
+public class ReservationService implements Observer {
 
     //@Autowired
     private ReservationDAO reservationRepository;
 
-    public void saveReservation(@RequestBody Reservation reservation) {
+    public void saveReservation(Reservation reservation) {
         reservationRepository.save(reservation);
     }
 
@@ -30,6 +31,17 @@ public class ReservationService {
 
     public void cancelReservation(Long reservationId) {
         reservationRepository.deleteById(reservationId);
+    }
+
+    
+    public void addToObserver(Subject tempPaymentService) {
+        this.tempPaymentServices = tempPaymentService;
+        tempPaymentService.addObserver(this); //line adds the current instance of Reservation as an observer to the tempPaymentService
+    }
+
+    @Override
+    public void update(boolean PaymentState) {
+        reservation.setPaymentStatus(PaymentState);
     }
 
 }
