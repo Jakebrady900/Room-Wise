@@ -1,19 +1,32 @@
 package com.roomwise.Room.RoomType;
 
 import com.roomwise.Room.Mediator.Mediator;
+import com.roomwise.Room.Mediator.RoomMediator;
 import com.roomwise.Room.RoomClassification.PremiumRoom;
 import com.roomwise.Room.RoomClassification.RoomClassification;
 import com.roomwise.Room.RoomClassification.StandardRoom;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Getter @Setter
+@Embeddable
 public abstract class RoomType {
+    @Embedded
     private RoomClassification _roomClassification;
-    private Mediator _mediator;
+    @Embedded
+    private RoomMediator _mediator;
     private List<Content> _roomContents;
     private Integer _capacity;
     private BigDecimal _basePrice;
+
 
     public BigDecimal getCharge() {
         return _mediator.getCharge(this, _roomClassification);
@@ -53,7 +66,7 @@ public abstract class RoomType {
     }
 
     public String getInfo() {
-        return  "Room Class: " + getRoomClassification() + "<br>" +
+        return  "Room Class: " + get_roomClassification() + "<br>" +
                 "Room Capacity: " + get_capacity() + "<br>" +
                 "Base Price: " + get_basePrice() + "<br>" +
                 "Room Contents: " + get_roomContents() + "<br>";
@@ -62,52 +75,4 @@ public abstract class RoomType {
 
 
 
-    /*
-    ================================================================================================
-    GETTERS AND SETTERS
-    ================================================================================================
-     */
-    public RoomClassification get_roomClassification() {
-        return _roomClassification;
-    }
-
-    public void set_roomClassification(RoomClassification _roomClassification) {
-        this._roomClassification = _roomClassification;
-    }
-
-    public List<Content> get_roomContents() {
-        return _roomContents;
-    }
-
-    public void set_roomContents(List<Content> _roomContents) {
-        this._roomContents = _roomContents;
-    }
-
-    public Integer get_capacity() {
-        return _capacity;
-    }
-
-    public void set_capacity(Integer _capacity) {
-        this._capacity = _capacity;
-    }
-
-    public BigDecimal get_basePrice() {
-        return _basePrice;
-    }
-
-    public void set_basePrice(BigDecimal _basePrice) {
-        this._basePrice = _basePrice;
-    }
-
-    public Mediator get_mediator() {
-        return _mediator;
-    }
-
-    public void set_mediator(Mediator _mediator) {
-        this._mediator = _mediator;
-    }
-
-    public String getRoomClassification() {
-        return _roomClassification.getClass().getSimpleName();
-    }
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class ReservationService {
 
-    @Autowired
+    //@Autowired
     private ReservationDAO reservationRepository;
 
     public void saveReservation(@RequestBody Reservation reservation) {

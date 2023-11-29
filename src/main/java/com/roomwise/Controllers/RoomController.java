@@ -4,14 +4,17 @@ package com.roomwise.Controllers;
 import com.roomwise.Services.RoomService;
 import com.roomwise.Models.Room;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/room-wise/rooms")
-class RoomController {
+public class RoomController {
 
-    private RoomService roomService;
+    private final RoomService roomService;
 
     public RoomController(RoomService roomService){
         this.roomService = roomService;
@@ -29,9 +32,9 @@ class RoomController {
         roomService.addRoom(room);
     }
 
-    public void updateRoom(Room room, int id){
-        roomService.updateRoom(room, id);
-    }
+//    public void updateRoom(Room room, int id){
+//        roomService.updateRoom(room, id);
+//    }
 
     public void deleteRoom(int id){
         roomService.deleteRoom(id);

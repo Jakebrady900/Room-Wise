@@ -2,43 +2,34 @@ package com.roomwise.Models;
 
 
 import com.roomwise.Room.RoomType.RoomType;
+import com.roomwise.Services.RoomService;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter @Setter
+@NoArgsConstructor
+@Entity
 public class Room {
 
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer roomNumber;
-    private final RoomType _roomType;
+    @Embedded
+    private RoomType roomType;
 
-    public Room(RoomType roomType, Integer roomNumber) {
-        setRoomNumber(roomNumber);
-        _roomType = roomType;
+    public Room(RoomType roomType) {
+        setRoomType(roomType);
     }
 
     public String displayInfo() {
         return "Room Type: " + getRoomType() + "<br>" +
                 "_".repeat(50) + "<br>" +
                 "Room Number: " + getRoomNumber() + "<br>" +
-                _roomType.getInfo() + "<br>" +
+                getRoomType().getInfo() + "<br>" +
                 "_".repeat(50) + "<br>";
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getRoomNumber() {
-        return roomNumber;
-    }
-
-    public void setRoomNumber(Integer roomNumber) {
-        this.roomNumber = roomNumber;
-    }
-
-    public String getRoomType() {
-        return _roomType.getClass().getSimpleName();
-    }
 }
