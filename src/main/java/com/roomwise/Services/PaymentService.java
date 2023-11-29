@@ -2,10 +2,11 @@ package com.roomwise.Services;
 
 import com.roomwise.Models.Payment;
 import com.roomwise.Repositories.PaymentDAO;
+import com.roomwise.Strategy.PaymentStrategy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +16,15 @@ public class PaymentService {
 
      @Autowired
     private PaymentDAO paymentRepository;
+    private PaymentStrategy paymentStrategy;
 
-    public void savePayment(@RequestBody Payment payment) {
+    @Autowired
+    public PaymentService(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
+    public void makePayment( Payment payment) {
+        paymentStrategy.executePayment(payment);
         paymentRepository.save(payment);
     }
 
@@ -28,9 +36,7 @@ public class PaymentService {
         return paymentRepository.findById(paymentId);
     }
    
-    public void deletePayment(Long paymentId) {
-        paymentRepository.deleteById(paymentId);
-    }
+
 
     
 

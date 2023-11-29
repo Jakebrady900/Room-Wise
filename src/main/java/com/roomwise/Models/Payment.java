@@ -32,9 +32,8 @@ public class Payment {
 
  	private double amount;
 
-	//private Integer noOfRooms;
+	private boolean paymentStatus;
 
-	//private List<Integer> RoomsNumber;
 
 
 	 
