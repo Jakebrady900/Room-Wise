@@ -36,4 +36,14 @@ public class ReservationController {
         }
     }
 
+    
+    @GetMapping("/cancelReservation/{id}")
+    public String cancelReservationByID(@PathVariable Long Id) {
+        if (reservationService.findReservationById(Id).isPresent()) {
+            reservationService.cancelReservation(Id);
+            return "Reservation cancelled";
+        } else {
+            return "no such reservation,";
+        }
+    }
 }
