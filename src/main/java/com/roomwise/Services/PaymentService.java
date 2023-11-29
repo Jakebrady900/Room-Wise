@@ -17,6 +17,7 @@ public class PaymentService {
      @Autowired
     private PaymentDAO paymentRepository;
     private PaymentStrategy paymentStrategy;
+    private ReservationService reservation; 
 
     @Autowired
     public PaymentService(PaymentStrategy paymentStrategy) {
@@ -26,6 +27,7 @@ public class PaymentService {
     public void makePayment( Payment payment) {
         paymentStrategy.executePayment(payment);
         paymentRepository.save(payment);
+        reservation.addToObserver(payment);
     }
 
     public List<Payment> showPayments() {
@@ -36,6 +38,31 @@ public class PaymentService {
         return paymentRepository.findById(paymentId);
     }
    
+   
+    @Override
+    public void addObserver(Observer newObserver) {
+       observers.add(newObserver);
+    }
+
+    @Override
+    public void removeObserver(Observer newObserver) {
+       int obIndex = observers.indexOf(newObserver);
+        observers.remove(obIndex);
+    }
+
+    @Override
+    public void notifyObservers() {
+       
+        for (Observer observer : observers) {
+            observer.update(paymentStatus);
+        }
+
+    }
+
+    public void setPaymentStatus(boolean newPStatus){
+        this.paymentStatus = newPStatus;
+        notifyObservers();
+    }
 
 
     
