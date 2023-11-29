@@ -21,7 +21,7 @@ public class PaymentController {
     @PostMapping("/makePayment")
     public String makePayment(@RequestBody Payment payment) {
         paymentService.makePayment(payment);
-        return "saved sucessfully";
+        return "Payment sucessful";
     }
 
     @GetMapping("/getAllPayment")
