@@ -32,4 +32,9 @@ public class CustomerService {
         customerRepository.deleteById(customerId);
     }
 
+       public String sendNotificationToCustomer(Customer customer, String message) {
+        EmailNotificationCommand notificationCommand = new EmailNotificationCommand(customer, message);
+        return notificationCommand.execute();
+    }
+
 }

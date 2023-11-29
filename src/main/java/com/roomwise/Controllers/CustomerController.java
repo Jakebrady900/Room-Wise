@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/customers")
 public class CustomerController {
 
@@ -33,6 +33,11 @@ public class CustomerController {
         } else {
             return "no such customer";
         }
+    }
+
+     //Admin
+    public String sendNotification(@PathVariable Customer customer ,@PathVariable String message) {
+       return customerService.sendNotificationToCustomer(customer, message);
     }
 
 }
