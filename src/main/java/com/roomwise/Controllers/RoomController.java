@@ -7,11 +7,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/room-wise/rooms")
+@RestController
+@RequestMapping("/room-wise/")
 public class RoomController {
 
     private final RoomService roomService;
@@ -20,12 +20,14 @@ public class RoomController {
         this.roomService = roomService;
     }
 
+    @RequestMapping("/rooms")
     public List<Room> getRooms(){
         return roomService.getRooms();
     }
 
-    public Room getRoom(int id){
-        return roomService.getRoom(id);
+    @RequestMapping("/room/{roomNumber}")
+    public Room getRoom(@PathVariable("roomNumber") int roomNumber){
+        return roomService.getRoom(roomNumber);
     }
 
     public void addRoom(Room room){
@@ -36,8 +38,9 @@ public class RoomController {
 //        roomService.updateRoom(room, id);
 //    }
 
-    public void deleteRoom(int id){
-        roomService.deleteRoom(id);
+    @DeleteMapping("/remove-room/{roomNumber}")
+    public void deleteRoom(@PathVariable("roomNumber") int roomNumber){
+        roomService.deleteRoom(roomNumber);
     }
 
 }

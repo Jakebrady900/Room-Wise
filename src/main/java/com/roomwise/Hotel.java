@@ -2,43 +2,44 @@ package com.roomwise;
 
 import com.roomwise.Controllers.RoomController;
 import com.roomwise.Room.Factories.*;
+import com.roomwise.Room.RoomType.Content;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class Hotel {
-    private final SingleRoomCreator singleRoomFactory;
-    private final DoubleRoomCreator doubleRoomFactory;
-    private final TwinRoomCreator twinRoomFactory;
-    private final FamilyRoomCreator familyRoomFactory;
+    private final RoomFactory roomFactory;
     private final RoomController roomController;
 
     @Autowired
-    public Hotel(SingleRoomCreator singleRoomFactory,
-                 DoubleRoomCreator doubleRoomFactory,
-                 TwinRoomCreator twinRoomFactory,
-                 FamilyRoomCreator familyRoomFactory,
-                 RoomController roomController) {
-        this.singleRoomFactory = singleRoomFactory;
-        this.doubleRoomFactory = doubleRoomFactory;
-        this.twinRoomFactory = twinRoomFactory;
-        this.familyRoomFactory = familyRoomFactory;
+    public Hotel(RoomFactory roomFactory, RoomController roomController) {
+        this.roomFactory = roomFactory;
         this.roomController = roomController;
     }
 
     @PostConstruct
     public void onInit() {
-        System.out.println("Hotel created");
-        //initiateHotel();
-        System.out.println("Rooms created");
+        initiateHotel();
     }
 
     public void initiateHotel() {
-        roomController.addRoom(singleRoomFactory.createRoom());
-//        roomController.addRoom(doubleRoomFactory.createRoom());
-//        roomController.addRoom(twinRoomFactory.createRoom());
-//        roomController.addRoom(familyRoomFactory.createRoom());
+        System.out.println("Creating rooms");
+        roomController.addRoom(roomFactory.createRoom("Single"));
+        roomController.addRoom(roomFactory.createRoom("Twin"));
+        roomController.addRoom(roomFactory.createRoom("Double"));
+        roomController.addRoom(roomFactory.createRoom("Family"));
+        System.out.println("Rooms Created");
+
+
+//        System.out.println(roomController.getRoom(1).displayInfo());
+//        System.out.println(roomController.getRoom(1).getCharge());
+//        roomController.getRoom(1).getRoomType().addContents(List.of(Content.SingleBed, Content.Breakfast, Content.Breakfast, Content.Breakfast, Content.Breakfast));
+//        System.out.println(roomController.getRoom(1).getCharge());
+
+
     }
 }
 

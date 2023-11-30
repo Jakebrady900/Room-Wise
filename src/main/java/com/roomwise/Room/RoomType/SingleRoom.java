@@ -1,7 +1,7 @@
 package com.roomwise.Room.RoomType;
 
 
-import com.roomwise.Room.Mediator.RoomMediator;
+import com.roomwise.Services.RoomMediator;
 import com.roomwise.Room.RoomClassification.StandardRoom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

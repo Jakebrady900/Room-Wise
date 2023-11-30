@@ -2,7 +2,6 @@ package com.roomwise.Services;
 
 import com.roomwise.Repositories.RoomRepository;
 import com.roomwise.Models.Room;
-import com.roomwise.Room.Factories.RoomFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,12 +19,11 @@ public class RoomService {
 
 
     public List<Room> getRooms(){
-        return roomRepository.findAll();
+        return roomRepository.getRooms();
     }
 
-    public Room getRoom(int id){
-        return null;
-        //return roomRepository.findById(id);
+    public Room getRoom(int roomNumber){
+        return roomRepository.getRoom(roomNumber);
     }
 
     public void addRoom(Room room){
@@ -36,7 +34,7 @@ public class RoomService {
 //        roomRepository.updateRoom(room, id);
 //    }
 
-    public void deleteRoom(int id){
-        roomRepository.deleteById(id);
+    public void deleteRoom(int roomNumber){
+        roomRepository.deleteRoom(roomNumber);
     }
 }

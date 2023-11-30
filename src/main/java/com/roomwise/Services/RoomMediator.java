@@ -1,4 +1,4 @@
-package com.roomwise.Room.Mediator;
+package com.roomwise.Services;
 
 import com.roomwise.Room.RoomClassification.RoomClassification;
 import com.roomwise.Room.RoomClassification.StandardRoom;

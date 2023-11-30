@@ -1,17 +1,13 @@
 package com.roomwise.Room.RoomType;
 
-import com.roomwise.Room.Mediator.Mediator;
-import com.roomwise.Room.Mediator.RoomMediator;
+import com.roomwise.Services.Mediator;
 import com.roomwise.Room.RoomClassification.PremiumRoom;
 import com.roomwise.Room.RoomClassification.RoomClassification;
 import com.roomwise.Room.RoomClassification.StandardRoom;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,16 +18,14 @@ public abstract class RoomType {
     @Embedded
     private RoomClassification _roomClassification;
     @Embedded
-    private RoomMediator _mediator;
     private List<Content> _roomContents;
     private Integer _capacity;
     private BigDecimal _basePrice;
-
+    private Mediator _mediator;
 
     public BigDecimal getCharge() {
-        return _mediator.getCharge(this, _roomClassification);
+        return _mediator.getCharge(this, get_roomClassification());
     }
-
 
     public void upgradeRoom(){
         System.out.println("Upgrading room");
