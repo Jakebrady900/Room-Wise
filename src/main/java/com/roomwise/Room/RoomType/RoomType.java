@@ -1,11 +1,9 @@
 package com.roomwise.Room.RoomType;
 
-import com.roomwise.Services.Mediator;
+import com.roomwise.Models.Room;
 import com.roomwise.Room.RoomClassification.PremiumRoom;
 import com.roomwise.Room.RoomClassification.RoomClassification;
 import com.roomwise.Room.RoomClassification.StandardRoom;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Embedded;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,18 +11,23 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Getter @Setter
-@Embeddable
-public abstract class RoomType {
-    @Embedded
+public abstract class RoomType extends Room implements RoomClassification {
     private RoomClassification _roomClassification;
-    @Embedded
     private List<Content> _roomContents;
     private Integer _capacity;
     private BigDecimal _basePrice;
-    private Mediator _mediator;
 
     public BigDecimal getCharge() {
-        return _mediator.getCharge(this, get_roomClassification());
+        BigDecimal Charge;
+
+        Charge = _roomClassification.getCharge();
+        if (_roomClassification instanceof StandardRoom) {
+            for (Content content : get_roomContents()) {
+                Charge = Charge.add(content.getCost());
+            }
+        }
+        Charge = Charge.add(get_basePrice());
+        return Charge;
     }
 
     public void upgradeRoom(){

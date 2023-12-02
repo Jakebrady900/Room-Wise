@@ -2,9 +2,6 @@ package com.roomwise.Models;
 
 
 import com.roomwise.Room.RoomType.RoomType;
-import com.roomwise.Services.RoomMediator;
-import com.roomwise.Services.RoomService;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

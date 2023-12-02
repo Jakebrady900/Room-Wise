@@ -21,7 +21,8 @@ public class Hotel {
     }
 
     @PostConstruct
-    public void onInit() {
+    public void onInit()
+    {
         initiateHotel();
     }
 
@@ -32,13 +33,6 @@ public class Hotel {
         roomController.addRoom(roomFactory.createRoom("Double"));
         roomController.addRoom(roomFactory.createRoom("Family"));
         System.out.println("Rooms Created");
-
-
-//        System.out.println(roomController.getRoom(1).displayInfo());
-//        System.out.println(roomController.getRoom(1).getCharge());
-//        roomController.getRoom(1).getRoomType().addContents(List.of(Content.SingleBed, Content.Breakfast, Content.Breakfast, Content.Breakfast, Content.Breakfast));
-//        System.out.println(roomController.getRoom(1).getCharge());
-
 
     }
 }
