@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PaymentService {
+public class PaymentService implements Subject{
 
      @Autowired
     private PaymentDAO paymentRepository;
