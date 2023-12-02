@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Getter @Setter
-public abstract class RoomType extends Room implements RoomClassification {
+public abstract class RoomType extends Room {
     private RoomClassification _roomClassification;
     private List<Content> _roomContents;
     private Integer _capacity;
