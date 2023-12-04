@@ -2,14 +2,25 @@ package com.roomwise.Repositories;
 
 
 import com.roomwise.Models.Payment;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @Repository
+public class PaymentDAO {
 
-public interface PaymentDAO extends JpaRepository<Payment, Long> {
+    public void save(Payment payment) {
+    }
 
+    public List<Payment> findAll() {
+        return null;
+    }
+
+    public Optional<Payment> findById(Long paymentId) {
+        return null;
+    }
 }
-    
+
 

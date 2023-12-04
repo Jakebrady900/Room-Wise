@@ -1,12 +1,35 @@
 package com.roomwise.Repositories;
 
 import com.roomwise.Models.Customer;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CustomerDAO extends JpaRepository<Customer, Long> {
+public class CustomerDAO {
 
-    Optional<Customer> findByUsername(String username);
+    private List<Customer> CustomerDB;
+
+//    Optional<Customer> findByUsername(String username) {
+//    }
+
+
+    public void save(Customer customer) {
+        CustomerDB.add(customer);
+    }
+
+    public List<Customer> findAll() {
+        return null;
+        //return CustomerDB.getAll();
+    }
+
+    public Optional<Customer> findById(Long customerId) {
+        return null;
+        //return customerRepository.findById(customerId);
+    }
+
+    public void deleteById(Long customerId) {
+        //customerRepository.deleteById(customerId);
+    }
 }

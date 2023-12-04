@@ -3,6 +3,10 @@ package com.roomwise.Services;
 import com.roomwise.Models.Payment;
 import com.roomwise.Repositories.PaymentDAO;
 import com.roomwise.Strategy.PaymentStrategy;
+import com.roomwise.ObservePayments.Subject;
+import com.roomwise.ObservePayments.Observer;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +21,14 @@ public class PaymentService implements Subject{
      @Autowired
     private PaymentDAO paymentRepository;
     private PaymentStrategy paymentStrategy;
-    private ReservationService reservation; 
+    private ReservationService reservation;
 
     @Autowired
     public PaymentService(PaymentStrategy paymentStrategy) {
         this.paymentStrategy = paymentStrategy;
     }
 
-    public void makePayment( Payment payment) {
+    public void makePayment(Payment payment) {
         paymentStrategy.executePayment(payment);
         paymentRepository.save(payment);
         reservation.addToObserver(payment);
@@ -37,8 +41,8 @@ public class PaymentService implements Subject{
     public Optional<Payment> findPaymentById(Long paymentId) {
         return paymentRepository.findById(paymentId);
     }
-   
-   
+
+
     @Override
     public void addObserver(Observer newObserver) {
        observers.add(newObserver);
@@ -52,7 +56,7 @@ public class PaymentService implements Subject{
 
     @Override
     public void notifyObservers() {
-       
+
         for (Observer observer : observers) {
             observer.update(paymentStatus);
         }
@@ -63,8 +67,5 @@ public class PaymentService implements Subject{
         this.paymentStatus = newPStatus;
         notifyObservers();
     }
-
-
-    
 
 }
