@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class RoomRepository {
+public class RoomDAO {
     List<Room> RoomDB = new ArrayList<>();
     //CRUD
 

@@ -7,12 +7,14 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @Data
 @AllArgsConstructor @NoArgsConstructor
 public class Reservation {
 
-	private Long reservationId;
+	private Integer reservationId;
 
 	private LocalDate checkinDate;
 
@@ -24,8 +26,11 @@ public class Reservation {
 
 	private List<Integer> RoomsNumber;
 
+    public void setPaymentStatus(boolean paymentState) {
+    }
 
-	//need a type to determine role
+
+    //need a type to determine role
 	//connect to rest of the app rooms/customer
 
 

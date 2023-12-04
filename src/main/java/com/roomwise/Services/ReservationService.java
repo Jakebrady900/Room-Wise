@@ -1,9 +1,10 @@
 package com.roomwise.Services;
 
+
 import com.roomwise.Models.Reservation;
-import com.roomwise.Models.Room;
+
 import com.roomwise.ObservePayments.Observer;
-import com.roomwise.ObservePayments.Subject;
+
 import com.roomwise.Repositories.ReservationDAO;
 
 import org.springframework.stereotype.Service;
@@ -12,39 +13,42 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReservationService implements Observer {
+public class ReservationService  {
 
-    //@Autowired
     private ReservationDAO reservationRepository;
-    private Subject tempPaymentServices;
+    private Reservation reservation;
+    //private PaymentService tempPaymentServices;
+
+    public ReservationService(ReservationDAO reservationRepository, Reservation reservation) {
+        this.reservationRepository = reservationRepository;
+        this.reservation = reservation;
+        //this.tempPaymentServices = tempPaymentServices;
+    }
 
     public void saveReservation(Reservation reservation) {
-        //reservationRepository.save(reservation);
+        reservationRepository.save(reservation);
     }
 
     public List<Reservation> showReservations() {
-        return null;
-        //return reservationRepository.findAll();
+        return reservationRepository.getReservations();
     }
 
-    public Optional<Reservation> findReservationById(Long reservationId) {
-        return null;
-        //return reservationRepository.findById(reservationId);
+    public Reservation findReservationById(Integer reservationId) {
+        return reservationRepository.findById(reservationId);
     }
 
-    public void cancelReservation(Long reservationId) {
-        //reservationRepository.deleteById(reservationId);
+    public String cancelReservation(Integer reservationId) {
+        return reservationRepository.deleteReservationById(reservationId);
     }
 
 
-    public void addToObserver(Subject tempPaymentService) {
-        this.tempPaymentServices = tempPaymentService;
-        tempPaymentService.addObserver(this); //line adds the current instance of Reservation as an observer to the tempPaymentService
-    }
+//    public void addToObserver(PaymentService tempPaymentService) {
+//        this.tempPaymentServices = tempPaymentService;
+//        tempPaymentService.addObserver(this); //line adds the current instance of Reservation as an observer to the tempPaymentService
+//    }
 
-    @Override
-    public void update(boolean PaymentState) {
-        //reservation.setPaymentStatus(PaymentState);
-    }
-
+//    @Override
+//    public void update(boolean PaymentState) {
+//        reservation.setPaymentStatus(PaymentState);
+//    }
 }

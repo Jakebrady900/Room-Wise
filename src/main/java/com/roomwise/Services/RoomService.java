@@ -1,6 +1,6 @@
 package com.roomwise.Services;
 
-import com.roomwise.Repositories.RoomRepository;
+import com.roomwise.Repositories.RoomDAO;
 import com.roomwise.Models.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public class RoomService {
 
-    private final RoomRepository roomRepository;
+    private final RoomDAO roomRepository;
 
     @Autowired
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(RoomDAO roomRepository) {
         this.roomRepository = roomRepository;
     }
 
