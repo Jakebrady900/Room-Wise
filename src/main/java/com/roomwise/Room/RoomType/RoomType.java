@@ -11,24 +11,23 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Getter @Setter
-public abstract class RoomType extends Room {
+public abstract class RoomType {
+    /**
+        RoomType is an object composing the Room object, which determine the room size.
+        RoomType has four concrete implementations; Single, Twin, Double, and Family.
+        RoomType is composed of a list of roomContents, the capacity of the room, and the base price.
+        RoomType is also a composition of the roomClassification object, which determines the mechanics of
+                the costs for each item in the room contents list.
+     */
     private RoomClassification _roomClassification;
     private List<Content> _roomContents;
     private Integer _capacity;
     private BigDecimal _basePrice;
 
     public BigDecimal getCharge() {
-        BigDecimal Charge;
-
-        Charge = _roomClassification.getCharge();
-        if (_roomClassification instanceof StandardRoom) {
-            for (Content content : get_roomContents()) {
-                Charge = Charge.add(content.getCost());
-            }
-        }
-        Charge = Charge.add(get_basePrice());
-        return Charge;
+        return _roomClassification.getCharge(this).add(get_basePrice());
     }
+
 
     public void upgradeRoom(){
         System.out.println("Upgrading room");

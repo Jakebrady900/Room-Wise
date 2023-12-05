@@ -10,6 +10,12 @@ import java.util.List;
 @Service
 public class RoomService {
 
+    /*
+        RoomService is a class that is used to handle the business logic of the application.
+        It is used to handle the data that is passed to and from the database (List in this case).
+        It is also used to handle the data that is passed to and from the controller.
+     */
+
     private final RoomDAO roomRepository;
 
     @Autowired
