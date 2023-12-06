@@ -16,6 +16,10 @@ public class Reservation {
 
 	private Integer reservationId;
 
+	private Integer customerId;
+
+	private Integer paymentId;
+
 	private LocalDate checkinDate;
 
 	private LocalDate checkoutDate;
@@ -26,8 +30,8 @@ public class Reservation {
 
 	private List<Integer> RoomsNumber;
 
-    public void setPaymentStatus(boolean paymentState) {
-    }
+	private boolean paymentStatus;
+
 
 
     //need a type to determine role

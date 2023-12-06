@@ -2,46 +2,55 @@ package com.roomwise.Services;
 
 
 import com.roomwise.Models.Reservation;
-
 import com.roomwise.ObservePayments.Observer;
-
 import com.roomwise.Repositories.ReservationDAO;
-
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ReservationService  {
+public class ReservationService implements Observer  {
 
-
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
-    private final ReservationDAO reservationRepository;
+    private ReservationDAO reservationRepository;
     private Reservation reservation;
-    public ReservationService(ReservationDAO reservationRepository, Reservation reservation) {
+    private PaymentService paymentService;
+    private boolean paymentStatus;
+    private Integer Id;
+
+
+    public ReservationService(ReservationDAO reservationRepository, Reservation reservation,PaymentService paymentService) {
         this.reservationRepository = reservationRepository;
         this.reservation = reservation;
+        this.paymentService = paymentService;
+        this.paymentService.addObserver(this);
+        this.Id = reservation.getReservationId();
     }
 
     public void saveReservation(Reservation reservation) {
         reservationRepository.save(reservation);
+    }
+    public Boolean updateReservation(Reservation reservation) {
+        return reservationRepository.updateReservation(reservation);
     }
 
     public List<Reservation> showReservations() {
         return reservationRepository.getReservations();
     }
 
-    public Reservation findReservationById(Integer reservationId) {
+    public Reservation findReservationById(int reservationId) {
         return reservationRepository.findById(reservationId);
     }
 
-    public String cancelReservation(Integer reservationId) {
+    public String cancelReservation(int reservationId) {
         return reservationRepository.deleteReservationById(reservationId);
     }
+
+
+    @Override
+    public void updatePaymentStatus(boolean status) {
+        reservationRepository.updatePaymentStatus(Id, status);
+        //update payment status
+    }
+
+
 }

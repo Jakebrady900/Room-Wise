@@ -2,9 +2,7 @@ package com.roomwise.Controllers;
 
 import com.roomwise.Models.Reservation;
 import com.roomwise.Services.ReservationService;
-import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.access.prepost.PreAuthorize;
-// import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,27 +19,34 @@ public class ReservationController {
     }
 
     @PostMapping("/public/makeRes")
-    public String makeReservation(@RequestBody Reservation resrvation) {
-        reservationService.saveReservation(resrvation);
-        return "saved sucessfully";
+    public String makeReservation(@RequestBody Reservation reservation) {
+        reservationService.saveReservation(reservation);
+        return "saved successfully";
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/public/updateRes")
+    public String updateReservation(@RequestBody Reservation reservation) {
+        Boolean aBoolean = reservationService.updateReservation(reservation);
+        return aBoolean?"Updated successfully":"No Such Reservation";
+    }
+
     @GetMapping("/admin/getAllRes")
-    public List<Reservation> getAllReservation() {
+//    @PreAuthorize("hasRole('ADMIN')")
+    public List<Reservation> getAllReservation(Authentication authentication) {
+//        System.out.println(authentication.getAuthorities()); // Print user's authorities/roles
         return reservationService.showReservations();
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/admin/getRes/{id}")
-    public Reservation getReservationByID(@PathVariable("reservationId") Integer Id) {
-        return reservationService.findReservationById(Id);
+    @RequestMapping("/admin/getRes/{reservationId}")
+    public Reservation getReservationByID(@PathVariable("reservationId") int reservationId) {
+        return reservationService.findReservationById(reservationId);
     }
 
     //@PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/admin/cancelReservation/{id}")
-    public String cancelReservationByID(@PathVariable("reservationId") Integer Id) {
-        return reservationService.cancelReservation(Id);
+    @RequestMapping("/admin/cancelReservation/{reservationId}")
+    public String cancelReservationByID(@PathVariable("reservationId") int reservationId) {
+        return reservationService.cancelReservation(reservationId);
     }
 
 }

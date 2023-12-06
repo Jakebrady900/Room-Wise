@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PaymentService {
+public class PaymentService implements Subject{
 
     private PaymentDAO paymentRepository;
     private PaymentStrategy paymentStrategy;
@@ -22,18 +22,17 @@ public class PaymentService {
 
     private List<Observer> observers = new ArrayList<>();
     private boolean paymentStatus;// payment model
-    //  private long resID; // payment model yet to be connected to payment
 
     public PaymentService(PaymentStrategy paymentStrategy, PaymentDAO paymentRepository) {
         this.paymentStrategy = paymentStrategy;
         this.paymentRepository = paymentRepository;
-        //this.reservation = reservation;
+
     }
 
     public void makePayment(Payment payment) {
         paymentStrategy.executePayment(payment);
         paymentRepository.save(payment);
-        //reservation.addToObserver(this);
+        notifyObservers(); // Notify observers about the payment status change
     }
 
     public List<Payment> showPayments() {
@@ -43,30 +42,21 @@ public class PaymentService {
     public Optional<Payment> findPaymentById(Long paymentId) {
         return paymentRepository.findById(paymentId);
     }
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
 
-//    @Override
-//    public void addObserver(Observer newObserver) {
-//        observers.add(newObserver);
-//    }
-//
-//    @Override
-//    public void removeObserver(Observer newObserver) {
-//        int obIndex = observers.indexOf(newObserver);
-//        observers.remove(obIndex);
-//    }
-//
-//    @Override
-//    public void notifyObservers() {
-//
-//        for (Observer observer : observers) {
-//            observer.update(paymentStatus);
-//        }
-//
-//    }
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
 
-    public void setPaymentStatus(boolean newPStatus) {
-        this.paymentStatus = newPStatus;
-//        notifyObservers();
+    @Override
+    public void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.updatePaymentStatus(paymentStatus);
+        }
     }
 
 }

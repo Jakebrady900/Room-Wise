@@ -1,20 +1,19 @@
 package com.roomwise.Repositories;
 
 import com.roomwise.Models.Reservation;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.roomwise.Models.Room;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public class ReservationDAO {
 
     List<Reservation> ReservationDB = new ArrayList<>();
 
-    public void save(Reservation room) {
-        ReservationDB.add(room);
+    public void save(Reservation reservation) {
+//        reservation.setCustomerId(customer.getCustomerId());
+        ReservationDB.add(reservation);
     }
 
 
@@ -23,7 +22,7 @@ public class ReservationDAO {
     }
 
 
-    public Reservation findById(Integer Id) {
+    public Reservation findById(int Id) {
         for (Reservation reservation : ReservationDB) {
             if (reservation.getReservationId() == Id) {
                 return reservation;
@@ -32,12 +31,33 @@ public class ReservationDAO {
         return null;
     }
 
-    public String deleteReservationById(Integer Id) {
-        if (findById(Id) != null) {
-            ReservationDB.remove(Id);
-            return "Reservation Canceled";
-        } else {
-            return "No Such Reservation";
+    public String deleteReservationById(int Id) {
+
+        for (Reservation reservation : ReservationDB) {
+            if (reservation.getReservationId() == Id) {
+                ReservationDB.remove(reservation);
+                return "Reservation Canceled";
+            }
         }
+        return "No Such Reservation";
+    }
+
+    public Boolean updateReservation(Reservation updatedReservation) {
+        for (int i = 0; i < ReservationDB.size(); i++) {
+            Reservation reservation = ReservationDB.get(i);
+            if (reservation.getReservationId().equals(updatedReservation.getReservationId())) {
+                ReservationDB.set(i, updatedReservation);
+                return true; // Updated successfully
+            }
+        }
+        return false; // Item not found
+    }
+
+    public void updatePaymentStatus(Integer reservationId, boolean newPaymentStatus) {
+        Reservation reservationToUpdate = findById(reservationId);
+        if (reservationToUpdate != null) {
+            reservationToUpdate.setPaymentStatus(newPaymentStatus);
+        }
+        updateReservation(reservationToUpdate);  // Updated successfully
     }
 }
