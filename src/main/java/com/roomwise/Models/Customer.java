@@ -29,4 +29,18 @@ public class Customer {
 		customerId = IdService.getNextCustomerID();
 	}
 
+	public Customer(String name, Integer age, long contact, String email, String username, String password) {
+		this.name = name;
+		this.age = age;
+		this.contact = contact;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+	}
+
+	public Customer(String name, String username, String password) {
+		this.name = name;
+		this.username = username;
+		this.password = password;
+	}
 }

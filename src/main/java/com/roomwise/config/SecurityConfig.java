@@ -1,10 +1,15 @@
 package com.roomwise.config;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.roomwise.Models.Customer;
+import com.roomwise.Repositories.CustomerDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -45,9 +51,19 @@ public class SecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager users() {
-        return new InMemoryUserDetailsManager(User.withUsername("admin").password("{noop}password").authorities("read").build());
+    public InMemoryUserDetailsManager users(CustomerDAO customerRepository) {
+        List<Customer> customers = customerRepository.getCustomers(); // Fetch all customers
+
+        List<UserDetails> userDetailsList = new ArrayList<>();
+
+        for (Customer customer : customers) {
+            userDetailsList.add(User.withUsername(customer.getUsername()).password("{noop}" + customer.getPassword()).authorities("read").build());
+        }
+        userDetailsList.add(User.withUsername("admin").password("{noop}password").authorities("read").build());
+        System.out.println(userDetailsList);
+        return new InMemoryUserDetailsManager(userDetailsList);
     }
+
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
@@ -100,4 +116,22 @@ public class SecurityConfig {
                                 .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
                 .build();
     }
+
+//    @Bean
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeRequests(authorize -> authorize
+//                        .requestMatchers(HttpMethod.POST, "/register").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                .sessionManagement(session -> session
+//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                )
+//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+//                .exceptionHandling(ex -> ex
+//                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+//                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+//                );
+//    }
 }
