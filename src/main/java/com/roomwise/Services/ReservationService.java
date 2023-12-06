@@ -7,6 +7,8 @@ import com.roomwise.ObservePayments.Observer;
 
 import com.roomwise.Repositories.ReservationDAO;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,14 +17,16 @@ import java.util.Optional;
 @Service
 public class ReservationService  {
 
-    private ReservationDAO reservationRepository;
-    private Reservation reservation;
-    //private PaymentService tempPaymentServices;
 
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
+    private final ReservationDAO reservationRepository;
+    private Reservation reservation;
     public ReservationService(ReservationDAO reservationRepository, Reservation reservation) {
         this.reservationRepository = reservationRepository;
         this.reservation = reservation;
-        //this.tempPaymentServices = tempPaymentServices;
     }
 
     public void saveReservation(Reservation reservation) {
@@ -40,15 +44,4 @@ public class ReservationService  {
     public String cancelReservation(Integer reservationId) {
         return reservationRepository.deleteReservationById(reservationId);
     }
-
-
-//    public void addToObserver(PaymentService tempPaymentService) {
-//        this.tempPaymentServices = tempPaymentService;
-//        tempPaymentService.addObserver(this); //line adds the current instance of Reservation as an observer to the tempPaymentService
-//    }
-
-//    @Override
-//    public void update(boolean PaymentState) {
-//        reservation.setPaymentStatus(PaymentState);
-//    }
 }

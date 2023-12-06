@@ -1,6 +1,7 @@
 package com.roomwise.config;
 import java.util.List;
 
+import com.roomwise.ObservePayments.Subject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -37,7 +38,7 @@ import static org.springframework.security.config.Customizer.*;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig {
+public abstract class SecurityConfig implements Subject {
 
     private final RsaKeyProperties jwtConfigProperties;
 
