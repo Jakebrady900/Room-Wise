@@ -11,7 +11,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class Customer {
 
-	private Long customerId;
+	private Integer customerId;
 
 	private String name;
 
