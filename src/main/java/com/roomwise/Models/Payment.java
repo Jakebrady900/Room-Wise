@@ -1,24 +1,20 @@
 package com.roomwise.Models;
 
 import java.time.LocalDate;
-//import java.util.Collection;
-//import java.util.List;
 
-
-//import jakarta.persistence.Column;
-//import jakarta.persistence.EnumType;
-//import jakarta.persistence.Enumerated;
-
+import com.roomwise.Services.IdService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
-@Data
+@Component
 @AllArgsConstructor
+@Getter @Setter
 public class Payment {
 
-	private Long paymentId;
-
- 	private Long reservationId;
+	private Integer paymentId;
 
  	private LocalDate paymentDate;
 
@@ -27,7 +23,9 @@ public class Payment {
 	private boolean paymentStatus;
 
 
-
+	public Payment() {
+		paymentId = IdService.getNextPaymentID();
+	}
 
 	//connect to rest of the app
 

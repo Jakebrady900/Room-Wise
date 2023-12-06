@@ -2,16 +2,15 @@ package com.roomwise.Models;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.roomwise.Services.IdService;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 @Component
-@Data
-@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
 public class Reservation {
 
 	private Integer reservationId;
@@ -31,6 +30,11 @@ public class Reservation {
 	private List<Integer> RoomsNumber;
 
 	private boolean paymentStatus;
+
+	public Reservation(Customer customer) {
+		customerId = customer.getCustomerId();
+		this.reservationId = IdService.getNextReservationID();
+	}
 
 
 

@@ -2,25 +2,27 @@ package com.roomwise.Models;
 
 
 import com.roomwise.Room.RoomType.RoomType;
+import com.roomwise.Services.IdService;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter @Setter
 @NoArgsConstructor
+@Component
 public class Room {
 
     private String id;
     private Integer roomNumber;
-    private static int nextRoomNumber = 1;
     private RoomType roomType;
 
     public Room(RoomType roomType) {
         id = UUID.randomUUID().toString();
-        this.roomNumber = getNextRoomNumber();
+        this.roomNumber = IdService.getNextRoomNumber();
         setRoomType(roomType);
     }
 
@@ -33,9 +35,6 @@ public class Room {
     }
 
 
-    private static int getNextRoomNumber() {
-        return nextRoomNumber++;
-    }
 
     public BigDecimal getCharge() {
         return roomType.getCharge();

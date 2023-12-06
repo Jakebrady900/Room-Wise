@@ -1,14 +1,15 @@
 package com.roomwise.Models;
 
-import java.util.Collection;
-import java.util.List;
-
-
+import com.roomwise.Services.IdService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
-@Data
+@Component
 @AllArgsConstructor
+@Getter @Setter
 public class Customer {
 
 	private Integer customerId;
@@ -24,7 +25,8 @@ public class Customer {
 	private String username;
 	private String password;
 
-
-	// connection to resrvation
+	public Customer() {
+		customerId = IdService.getNextCustomerID();
+	}
 
 }
