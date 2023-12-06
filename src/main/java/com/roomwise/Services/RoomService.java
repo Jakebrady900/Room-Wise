@@ -36,11 +36,12 @@ public class RoomService {
         roomRepository.save(room);
     }
 
-//    public void updateRoom(Room room, int id){
-//        roomRepository.updateRoom(room, id);
-//    }
+    public void updateRoom(Room room, int id){
+        roomRepository.updateRoom(room, id);
+    }
 
     public void deleteRoom(int roomNumber){
         roomRepository.deleteRoom(roomNumber);
     }
+
 }

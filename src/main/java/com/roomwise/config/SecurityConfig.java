@@ -1,7 +1,6 @@
 package com.roomwise.config;
 import java.util.List;
 
-import com.roomwise.ObservePayments.Subject;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -36,9 +35,8 @@ import com.nimbusds.jose.proc.SecurityContext;
 import static org.springframework.security.config.Customizer.*;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
-public abstract class SecurityConfig implements Subject {
+@EnableWebSecurity @EnableMethodSecurity
+public class SecurityConfig {
 
     private final RsaKeyProperties jwtConfigProperties;
 
@@ -49,19 +47,6 @@ public abstract class SecurityConfig implements Subject {
     @Bean
     public InMemoryUserDetailsManager users() {
         return new InMemoryUserDetailsManager(User.withUsername("admin").password("{noop}password").authorities("read").build());
-    }
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .exceptionHandling(
-                        (ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
-                .build();
     }
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -101,5 +86,18 @@ public abstract class SecurityConfig implements Subject {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .exceptionHandling(
+                        (ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
+                .build();
     }
 }

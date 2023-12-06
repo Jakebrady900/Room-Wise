@@ -29,7 +29,7 @@ public class RoomDAO {
         return null;
     }
 
-    public void updateRoom(int roomNumber, Room updatedRoom) {
+    public void updateRoom(Room updatedRoom, int roomNumber) {
         for (Room room : RoomDB) {
             if (room.getRoomNumber() == roomNumber) {
                 String temp_ID =  room.getId();

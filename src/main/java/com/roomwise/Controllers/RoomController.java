@@ -34,9 +34,9 @@ public class RoomController {
         roomService.addRoom(room);
     }
 
-//    public void updateRoom(Room room, int id){
-//        roomService.updateRoom(room, id);
-//    }
+    public void updateRoom(Room room, int id){
+        roomService.updateRoom(room, id);
+    }
 
     @DeleteMapping("/remove-room/{roomNumber}")
     public void deleteRoom(@PathVariable("roomNumber") int roomNumber){
