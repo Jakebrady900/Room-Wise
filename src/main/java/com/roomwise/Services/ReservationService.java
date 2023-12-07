@@ -9,6 +9,7 @@ import com.roomwise.Repositories.ReservationDAO;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -79,4 +80,15 @@ public class ReservationService implements Observer  {
     }
 
 
+    public boolean isRoomAvailable(Integer roomId, LocalDate Qdate) {
+        List<Reservation> reservations = showReservations();
+        for (Reservation reservation : reservations) {
+            if (reservation.getRoomsNumber().contains(roomId))  {
+                if (reservation.getCheckinDate().isBefore(Qdate) && reservation.getCheckoutDate().isAfter(Qdate)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
