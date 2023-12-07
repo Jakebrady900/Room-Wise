@@ -16,8 +16,6 @@ public class Payment {
 
 	private Integer paymentId;
 
-	private Integer reservationId;
-
  	private LocalDate paymentDate;
 
  	private double amount;

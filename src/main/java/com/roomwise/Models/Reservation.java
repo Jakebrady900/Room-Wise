@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Getter @Setter
+@Data
+@AllArgsConstructor @NoArgsConstructor
 public class Reservation {
 
 	private Integer reservationId;
@@ -22,10 +24,6 @@ public class Reservation {
 	private LocalDate checkinDate;
 
 	private LocalDate checkoutDate;
-
-	private Integer noOfPerson;
-
-	private Integer noOfRooms;
 
 	private List<Integer> RoomsNumber;
 
