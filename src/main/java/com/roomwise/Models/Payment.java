@@ -16,12 +16,23 @@ public class Payment {
 
 	private Integer paymentId;
 
+	private Integer reservationId;
+
  	private LocalDate paymentDate;
 
  	private double amount;
 
 	private boolean paymentStatus;
 
+	public Payment(Integer paymentId, LocalDate paymentDate, double amount){
+		this.paymentId = paymentId;
+        this.paymentDate = paymentDate;
+		this.amount = amount;
+	}
+
+	public boolean getPaymentStatus() {
+		return paymentStatus;
+	}
 
 	public Payment() {
 		paymentId = IdService.getNextPaymentID();

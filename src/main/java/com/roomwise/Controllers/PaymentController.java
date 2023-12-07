@@ -33,13 +33,7 @@ public class PaymentController {
         return paymentService.showPayments();
     }
 
-    @GetMapping("/getPayment/{id}")
-    public String getReservationByID(@PathVariable Long Id) {
-        if (paymentService.findPaymentById(Id).isPresent()) {
-            return "Paid : " + paymentService.findPaymentById(Id).get();
-        } else {
-            return "no payment made";
-        }
-    }
+    @GetMapping("/getPayment/{paymentId}")
+   public Payment getPaymentByID(@PathVariable("paymentId") int paymentId) {return paymentService.findPaymentById(paymentId);}
 
 }

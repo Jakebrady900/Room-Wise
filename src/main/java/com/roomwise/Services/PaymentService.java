@@ -16,11 +16,11 @@ import java.util.Optional;
 @Service
 public class PaymentService implements Subject{
 
+    
     private PaymentDAO paymentRepository;
     private PaymentStrategy paymentStrategy;
-    private ReservationService reservation;
-
     private List<Observer> observers = new ArrayList<>();
+    private int reservationPaymentId;
     private boolean paymentStatus;// payment model
 
     public PaymentService(PaymentStrategy paymentStrategy, PaymentDAO paymentRepository) {
@@ -29,17 +29,22 @@ public class PaymentService implements Subject{
 
     }
 
+
     public void makePayment(Payment payment) {
+
+        paymentStatus = payment.getPaymentStatus();
         paymentStrategy.executePayment(payment);
+        reservationPaymentId = payment.getPaymentId();
         paymentRepository.save(payment);
-        notifyObservers(); // Notify observers about the payment status change
+        notifyObservers();   // Notify observers about the payment status change
     }
 
     public List<Payment> showPayments() {
         return paymentRepository.findAll();
     }
 
-    public Optional<Payment> findPaymentById(Long paymentId) {
+   
+    public Payment findPaymentById(int paymentId) {
         return paymentRepository.findById(paymentId);
     }
     @Override
