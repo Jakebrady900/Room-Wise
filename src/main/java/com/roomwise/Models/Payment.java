@@ -1,5 +1,6 @@
 package com.roomwise.Models;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.roomwise.Services.IdService;
@@ -18,14 +19,14 @@ public class Payment {
 
  	private LocalDate paymentDate;
 
- 	private double amount;
+ 	private BigDecimal amount;
 
 	private boolean paymentStatus;
 
 	public Payment(Integer paymentId, LocalDate paymentDate, double amount){
 		this.paymentId = paymentId;
         this.paymentDate = paymentDate;
-		this.amount = amount;
+		this.amount = BigDecimal.valueOf(amount);
 	}
 
 	public boolean getPaymentStatus() {

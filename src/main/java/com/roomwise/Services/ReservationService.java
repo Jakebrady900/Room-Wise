@@ -1,6 +1,7 @@
 package com.roomwise.Services;
 
 
+import com.roomwise.Models.Payment;
 import com.roomwise.Models.Reservation;
 import com.roomwise.Models.Room;
 import com.roomwise.ObservePayments.Observer;
@@ -63,7 +64,9 @@ public class ReservationService implements Observer  {
         // Update payment status
     }
 
-    public BigDecimal getCharge(Reservation reservation) {
+    public BigDecimal getCharge(Integer reservationId) {
+        Reservation reservation = findReservationById(reservationId);
+        Payment payment = paymentService.findPaymentById(reservation.getPaymentId());
         BigDecimal charge = new BigDecimal(0);
         for (Integer number : reservation.getRoomsNumber()) {
             Room room = roomService.getRoom(number);
@@ -71,6 +74,7 @@ public class ReservationService implements Observer  {
                 charge.add(room.getCharge());
             }
         }
+        payment.setAmount(charge);
         return charge;
     }
 
