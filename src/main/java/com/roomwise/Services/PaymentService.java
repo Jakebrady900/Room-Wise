@@ -59,8 +59,12 @@ public class PaymentService implements Subject{
 
     @Override
     public void notifyObservers() {
+        System.out.println("notifyObservers");
         for (Observer observer : observers) {
-            observer.updatePaymentStatus(paymentStatus);
+            if (((ReservationService) observer).getPaymentId() == reservationPaymentId) {
+                observer.updatePaymentStatus(paymentStatus);
+                System.out.println(((ReservationService) observer).getPaymentId());
+            }
         }
     }
 

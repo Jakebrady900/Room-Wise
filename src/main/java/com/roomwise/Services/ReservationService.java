@@ -15,19 +15,24 @@ public class ReservationService implements Observer  {
     private Reservation reservation;
     private PaymentService paymentService;
     private boolean paymentStatus;
-    private Integer Id;
+    private Integer paymentId;
+
 
 
     public ReservationService(ReservationDAO reservationRepository, Reservation reservation,PaymentService paymentService) {
         this.reservationRepository = reservationRepository;
-        this.reservation = reservation;
         this.paymentService = paymentService;
         this.paymentService.addObserver(this);
-        this.Id = reservation.getReservationId();
     }
-
+    public Integer getPaymentId() {
+        return this.paymentId != null ? this.paymentId : 0; // Return a default value if paymentId is null
+    }
     public void saveReservation(Reservation reservation) {
+        this.paymentId = reservation.getPaymentId();
+        this.reservation = reservation;
         reservationRepository.save(reservation);
+
+
     }
     public Boolean updateReservation(Reservation reservation) {
         return reservationRepository.updateReservation(reservation);
@@ -47,9 +52,9 @@ public class ReservationService implements Observer  {
 
 
     @Override
-    public void updatePaymentStatus(boolean status) {
-        reservationRepository.updatePaymentStatus(Id, status);
-        //update payment status
+    public void updatePaymentStatus(boolean status ) {
+        reservation.setPaymentStatus(status);
+        // Update payment status
     }
 
 
