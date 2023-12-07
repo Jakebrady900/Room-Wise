@@ -42,9 +42,10 @@ import static org.springframework.security.config.Customizer.*;
 
 @Configuration
 @EnableWebSecurity @EnableMethodSecurity
-public class SecurityConfig {
+public class SecurityConfig{
 
     private final RsaKeyProperties jwtConfigProperties;
+
 
     public SecurityConfig(RsaKeyProperties jwtConfigProperties) {
         this.jwtConfigProperties = jwtConfigProperties;
@@ -104,34 +105,34 @@ public class SecurityConfig {
         return source;
     }
 
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+//                .exceptionHandling(
+//                        (ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+//                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
+//                .build();
+//    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .exceptionHandling(
                         (ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                                 .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.POST, "/customers/register").permitAll()
+                        .anyRequest().authenticated())
                 .build();
     }
 
-//    @Bean
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeRequests(authorize -> authorize
-//                        .requestMatchers(HttpMethod.POST, "/register").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .sessionManagement(session -> session
-//                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                )
-//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-//                .exceptionHandling(ex -> ex
-//                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-//                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-//                );
-//    }
+
+
 }

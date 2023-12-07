@@ -1,23 +1,24 @@
 package com.roomwise.Services;
 
 import com.roomwise.Models.Customer;
-import com.roomwise.Models.Reservation;
-import com.roomwise.Notification.EmailNotificationCommand;
 import com.roomwise.Notification.InotificationCommand;
 import com.roomwise.Repositories.CustomerDAO;
 
+import com.roomwise.config.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
 
-    @Autowired
-    private CustomerDAO customerRepository;
+    private final CustomerDAO customerRepository;
+    public CustomerService(CustomerDAO customerRepository) {
+        this.customerRepository = customerRepository;
+    }
 
     public void saveCustomer(Customer customer) {
         customerRepository.save(customer);
