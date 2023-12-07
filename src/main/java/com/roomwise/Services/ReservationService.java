@@ -28,6 +28,9 @@ public class ReservationService implements Observer  {
         return this.paymentId != null ? this.paymentId : 0; // Return a default value if paymentId is null
     }
     public void saveReservation(Reservation reservation) {
+        reservation.setReservationId(IdService.getNextReservationID());
+        reservation.setCustomerId(IdService.getNextCustomerID());
+        reservation.setPaymentId(IdService.getNextPaymentID());
         this.paymentId = reservation.getPaymentId();
         this.reservation = reservation;
         reservationRepository.save(reservation);
