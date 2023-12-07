@@ -3,6 +3,7 @@ package com.roomwise.Controllers;
 import com.roomwise.Models.Customer;
 import com.roomwise.Notification.EmailNotificationCommand;
 import com.roomwise.Services.CustomerService;
+import com.roomwise.config.SecurityConfig;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
