@@ -33,7 +33,6 @@ public class Payment {
 		this.paymentId = paymentId;
 	}
 
-
 	public boolean getPaymentStatus() {
 		return paymentStatus;
 	}
