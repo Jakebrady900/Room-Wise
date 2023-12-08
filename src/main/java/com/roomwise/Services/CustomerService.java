@@ -43,4 +43,8 @@ public class CustomerService {
         return EmailNotificationCommand.execute(customer, message);
     }
 
+    public boolean isValidCustomer(int customerId){
+        return customerRepository.findById(customerId)!= null;
+    }
+
 }
