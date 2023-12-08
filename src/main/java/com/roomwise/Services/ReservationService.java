@@ -75,6 +75,7 @@ public class ReservationService implements Observer {
     public void updatePaymentStatus(boolean status) {
         reservation.setPaymentStatus(status);
         // Update payment status in the reservation
+        //this method is called when the payment status changes
     }
 
     //fetches the charge for the reservation
