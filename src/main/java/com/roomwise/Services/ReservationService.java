@@ -38,9 +38,9 @@ public class ReservationService implements Observer  {
         reservation.setPaymentId(IdService.getNextPaymentID());
         this.paymentId = reservation.getPaymentId();
         this.reservation = reservation;
+        Payment payment = new Payment(paymentId);
+        paymentService.makePayment(payment);
         reservationRepository.save(reservation);
-
-
     }
     public Boolean updateReservation(Reservation reservation) {
         return reservationRepository.updateReservation(reservation);
@@ -66,17 +66,7 @@ public class ReservationService implements Observer  {
     }
 
     public BigDecimal getCharge(Integer reservationId) {
-        Reservation reservation = findReservationById(reservationId);
-        Payment payment = paymentService.findPaymentById(reservation.getPaymentId());
-        BigDecimal charge = new BigDecimal(0);
-        for (Integer number : reservation.getRoomsNumber()) {
-            Room room = roomService.getRoom(number);
-            if (room != null) {
-                charge.add(room.getCharge());
-            }
-        }
-        payment.setAmount(charge);
-        return charge;
+        return reservationRepository.getCharge(reservationId);
     }
 
 

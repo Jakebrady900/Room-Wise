@@ -29,6 +29,10 @@ public class Payment {
 		this.amount = BigDecimal.valueOf(amount);
 	}
 
+	public Payment(Integer paymentId){
+		this.paymentId = paymentId;
+	}
+
 	public boolean getPaymentStatus() {
 		return paymentStatus;
 	}

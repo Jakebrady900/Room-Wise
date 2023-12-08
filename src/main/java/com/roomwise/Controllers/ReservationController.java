@@ -49,4 +49,8 @@ public class ReservationController {
         return reservationService.cancelReservation(reservationId);
     }
 
+    @RequestMapping("/admin/getCharge/{reservationId}")
+    public String getCharge(@PathVariable Integer reservationId) {
+        return reservationService.getCharge(reservationId).toString();
+    }
 }

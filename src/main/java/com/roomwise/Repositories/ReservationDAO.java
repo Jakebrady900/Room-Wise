@@ -1,13 +1,25 @@
 package com.roomwise.Repositories;
 
+import ch.qos.logback.core.spi.AbstractComponentTracker;
+import com.roomwise.Models.Payment;
 import com.roomwise.Models.Reservation;
+import com.roomwise.Models.Room;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class ReservationDAO {
+
+    PaymentDAO paymentDAO;
+    RoomDAO roomDAO;
+
+    public ReservationDAO(PaymentDAO paymentDAO, RoomDAO roomDAO) {
+        this.paymentDAO = paymentDAO;
+        this.roomDAO = roomDAO;
+    }
 
     List<Reservation> ReservationDB = new ArrayList<>();
 
@@ -59,5 +71,20 @@ public class ReservationDAO {
             reservationToUpdate.setPaymentStatus(newPaymentStatus);
         }
         updateReservation(reservationToUpdate);  // Updated successfully
+    }
+
+    public BigDecimal getCharge(Integer reservationId) {
+        Reservation reservation = findById(reservationId);
+        Payment payment = paymentDAO.findById(reservation.getPaymentId());
+        System.out.println(payment);
+        BigDecimal charge = new BigDecimal(0);
+        for (Integer number : reservation.getRoomsNumber()) {
+            Room room = roomDAO.getRoom(number);
+            if (room != null) {
+                charge = charge.add(room.getCharge());
+            }
+        }
+        payment.setAmount(charge);
+        return charge;
     }
 }
