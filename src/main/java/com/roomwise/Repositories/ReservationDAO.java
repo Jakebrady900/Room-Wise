@@ -16,24 +16,25 @@ public class ReservationDAO {
     PaymentDAO paymentDAO;
     RoomDAO roomDAO;
 
+    // Constructor injecting PaymentDAO and RoomDAO dependencies
     public ReservationDAO(PaymentDAO paymentDAO, RoomDAO roomDAO) {
         this.paymentDAO = paymentDAO;
         this.roomDAO = roomDAO;
     }
 
-    List<Reservation> ReservationDB = new ArrayList<>();
+    List<Reservation> ReservationDB = new ArrayList<>(); // Database storing reservations
 
+    // Method to save a reservation
     public void save(Reservation reservation) {
-//        reservation.setCustomerId(customer.getCustomerId());
         ReservationDB.add(reservation);
     }
 
-
+    // Method to retrieve all reservations
     public List<Reservation> getReservations() {
         return ReservationDB;
     }
 
-
+    // Method to find a reservation by ID
     public Reservation findById(int Id) {
         for (Reservation reservation : ReservationDB) {
             if (reservation.getReservationId() == Id) {
@@ -43,8 +44,8 @@ public class ReservationDAO {
         return null;
     }
 
+    // Method to delete a reservation by ID
     public String deleteReservationById(int Id) {
-
         for (Reservation reservation : ReservationDB) {
             if (reservation.getReservationId() == Id) {
                 ReservationDB.remove(reservation);
@@ -54,6 +55,7 @@ public class ReservationDAO {
         return "No Such Reservation";
     }
 
+    // Method to update a reservation
     public Boolean updateReservation(Reservation updatedReservation) {
         for (int i = 0; i < ReservationDB.size(); i++) {
             Reservation reservation = ReservationDB.get(i);
@@ -65,18 +67,19 @@ public class ReservationDAO {
         return false; // Item not found
     }
 
+    // Method to update payment status of a reservation
     public void updatePaymentStatus(Integer reservationId, boolean newPaymentStatus) {
         Reservation reservationToUpdate = findById(reservationId);
         if (reservationToUpdate != null) {
             reservationToUpdate.setPaymentStatus(newPaymentStatus);
         }
-        updateReservation(reservationToUpdate);  // Updated successfully
+        updateReservation(reservationToUpdate); // Updated successfully
     }
 
+    // Method to calculate the total charge for a reservation
     public BigDecimal getCharge(Integer reservationId) {
         Reservation reservation = findById(reservationId);
         Payment payment = paymentDAO.findById(reservation.getPaymentId());
-        System.out.println(payment);
         BigDecimal charge = new BigDecimal(0);
         for (Integer number : reservation.getRoomsNumber()) {
             Room room = roomDAO.getRoom(number);
@@ -84,7 +87,7 @@ public class ReservationDAO {
                 charge = charge.add(room.getCharge());
             }
         }
-        payment.setAmount(charge);
+        payment.setAmount(charge); // Set payment amount for the reservation
         return charge;
     }
 }

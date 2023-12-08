@@ -15,29 +15,19 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor @NoArgsConstructor
 public class Reservation {
 
-	private Integer reservationId;
+	private Integer reservationId; // Unique identifier for a reservation
 
-	private Integer customerId;
+	private Integer customerId; // ID of the customer associated with the reservation
 
-	private Integer paymentId;
+	private Integer paymentId; // ID of the payment linked to the reservation
 
-	private LocalDate checkinDate;
+	private LocalDate checkinDate; // Date of check-in for the reservation
 
-	private LocalDate checkoutDate;
+	private LocalDate checkoutDate; // Date of check-out for the reservation
 
-	private List<Integer> RoomsNumber;
+	private List<Integer> RoomsNumber; // List of room numbers associated with the reservation
 
-	private boolean paymentStatus;
-
-	public Reservation(Customer customer) {
-		customerId = customer.getCustomerId();
-		this.reservationId = IdService.getNextReservationID();
-	}
-
-
-
-    //need a type to determine role
-	//connect to rest of the app rooms/customer
+	private boolean paymentStatus; // Status of the payment for the reservation
 
 
 }

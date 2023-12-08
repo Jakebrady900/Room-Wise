@@ -32,7 +32,7 @@ public class ReservationController {
 
     @GetMapping("/admin/getAllRes")
 //    @PreAuthorize("hasRole('ADMIN')")
-    public List<Reservation> getAllReservation(Authentication authentication) {
+    public List<Reservation> getAllReservation() {
 //        System.out.println(authentication.getAuthorities()); // Print user's authorities/roles
         return reservationService.showReservations();
     }
