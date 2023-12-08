@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public class RoomDAO {
-    List<Room> RoomDB = new ArrayList<>();
+    private final List<Room> RoomDB = new ArrayList<>();
     //CRUD
 
     public void save(Room room) {

@@ -105,18 +105,6 @@ public class SecurityConfig{
         return source;
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        return http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-//                .exceptionHandling(
-//                        (ex) -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-//                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler()))
-//                .build();
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
