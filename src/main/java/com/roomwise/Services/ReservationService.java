@@ -21,27 +21,38 @@ public class ReservationService implements Observer  {
     private boolean paymentStatus;
     private Integer paymentId;
     private RoomService roomService;
+    private CustomerService customerService;
 
 
 
-    public ReservationService(ReservationDAO reservationRepository, Reservation reservation,PaymentService paymentService, RoomService roomService) {
+    public ReservationService(ReservationDAO reservationRepository,PaymentService paymentService, RoomService roomService,CustomerService customerService) {
         this.reservationRepository = reservationRepository;
         this.paymentService = paymentService;
         this.paymentService.addObserver(this);
         this.roomService = roomService;
+        this.customerService = customerService;
+
     }
     public Integer getPaymentId() {
         return this.paymentId != null ? this.paymentId : 0; // Return a default value if paymentId is null
     }
-    public void saveReservation(Reservation reservation) {
-        reservation.setReservationId(IdService.getNextReservationID());
-        reservation.setPaymentId(IdService.getNextPaymentID());
-        this.paymentId = reservation.getPaymentId();
-        this.reservation = reservation;
-        Payment payment = new Payment(paymentId);
-        paymentService.makePayment(payment);
-        reservationRepository.save(reservation);
+    public String saveReservation(Reservation reservation) {
+        if(customerService.isValidCustomer(reservation.getCustomerId())) {
+            if (isRoomAvailable(reservation.getRoomsNumber(), reservation.getCheckinDate())) {
+                reservation.setReservationId(IdService.getNextReservationID());
+                reservation.setPaymentId(IdService.getNextPaymentID());
+                this.paymentId = reservation.getPaymentId();
+                this.reservation = reservation;
+                Payment payment = new Payment(paymentId);
+                paymentService.makePayment(payment);
+                reservationRepository.save(reservation);
+                return "Reservation created successfully for Customer" + reservation.getCustomerId();
+            }
+            return "Reservation not created, rooms not available ";
+        }
+        return "Reservation not created, Customer not found. create a new customer at /customer/reservation";
     }
+
     public Boolean updateReservation(Reservation reservation) {
         return reservationRepository.updateReservation(reservation);
     }
@@ -70,12 +81,14 @@ public class ReservationService implements Observer  {
     }
 
 
-    public boolean isRoomAvailable(Integer roomId, LocalDate Qdate) {
+    public boolean isRoomAvailable(List<Integer> roomIds, LocalDate Qdate) {
         List<Reservation> reservations = showReservations();
         for (Reservation reservation : reservations) {
-            if (reservation.getRoomsNumber().contains(roomId))  {
-                if (reservation.getCheckinDate().isBefore(Qdate) && reservation.getCheckoutDate().isAfter(Qdate)) {
-                    return false;
+            for(Integer roomId : roomIds){
+                if (reservation.getRoomsNumber().contains(roomId))  {
+                    if (reservation.getCheckinDate().isBefore(Qdate) && reservation.getCheckoutDate().isAfter(Qdate)) {
+                        return false;
+                    }
                 }
             }
         }

@@ -20,8 +20,8 @@ public class ReservationController {
 
     @PostMapping("/public/makeRes")
     public String makeReservation(@RequestBody Reservation reservation) {
-        reservationService.saveReservation(reservation);
-        return "saved successfully";
+        return reservationService.saveReservation(reservation);
+
     }
 
     @PostMapping("/public/updateRes")
