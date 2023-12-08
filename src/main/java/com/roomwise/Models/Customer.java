@@ -1,28 +1,18 @@
 package com.roomwise.Models;
 
-import java.util.Collection;
-import java.util.List;
-
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import com.roomwise.Services.IdService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
-@Data
+@Component
 @AllArgsConstructor
-@Entity
+@Getter @Setter
 public class Customer {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long customerId;
+	private Integer customerId;
 
 	private String name;
 
@@ -30,13 +20,27 @@ public class Customer {
 
 	private long contact;
 
-	@Column(unique = true)
 	private String email;
 
 	private String username;
 	private String password;
 
+	public Customer() {
+		customerId = IdService.getNextCustomerID();
+	}
 
-	// connection to resrvation
+	public Customer(String name, Integer age, long contact, String email, String username, String password) {
+		this.name = name;
+		this.age = age;
+		this.contact = contact;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+	}
 
+	public Customer(String name, String username, String password) {
+		this.name = name;
+		this.username = username;
+		this.password = password;
+	}
 }

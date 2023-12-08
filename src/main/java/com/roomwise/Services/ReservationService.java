@@ -1,47 +1,97 @@
 package com.roomwise.Services;
 
+
+import com.roomwise.Models.Payment;
+import com.roomwise.Models.Reservation;
 import com.roomwise.Models.Room;
 import com.roomwise.ObservePayments.Observer;
-import com.roomwise.ObservePayments.Subject;
 import com.roomwise.Repositories.ReservationDAO;
-
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ReservationService implements Observer {
+public class ReservationService implements Observer  {
 
-    //@Autowired
     private ReservationDAO reservationRepository;
+    private Reservation reservation;
+    private PaymentService paymentService;
+    private boolean paymentStatus;
+    private Integer paymentId;
+    private RoomService roomService;
+    private CustomerService customerService;
 
-    public void saveReservation(Reservation reservation) {
-        reservationRepository.save(reservation);
+
+
+    public ReservationService(ReservationDAO reservationRepository,PaymentService paymentService, RoomService roomService,CustomerService customerService) {
+        this.reservationRepository = reservationRepository;
+        this.paymentService = paymentService;
+        this.paymentService.addObserver(this);
+        this.roomService = roomService;
+        this.customerService = customerService;
+
+    }
+    public Integer getPaymentId() {
+        return this.paymentId != null ? this.paymentId : 0; // Return a default value if paymentId is null
+    }
+    public String saveReservation(Reservation reservation) {
+        if(customerService.isValidCustomer(reservation.getCustomerId())) {
+            if (isRoomAvailable(reservation.getRoomsNumber(), reservation.getCheckinDate())) {
+                reservation.setReservationId(IdService.getNextReservationID());
+                reservation.setPaymentId(IdService.getNextPaymentID());
+                this.paymentId = reservation.getPaymentId();
+                this.reservation = reservation;
+                Payment payment = new Payment(paymentId);
+                paymentService.makePayment(payment);
+                reservationRepository.save(reservation);
+                return "Reservation created successfully for Customer" + reservation.getCustomerId();
+            }
+            return "Reservation not created, rooms not available ";
+        }
+        return "Reservation not created, Customer not found. create a new customer at /customer/reservation";
+    }
+
+    public Boolean updateReservation(Reservation reservation) {
+        return reservationRepository.updateReservation(reservation);
     }
 
     public List<Reservation> showReservations() {
-        return reservationRepository.findAll();
+        return reservationRepository.getReservations();
     }
 
-    public Optional<Reservation> findReservationById(Long reservationId) {
+    public Reservation findReservationById(int reservationId) {
         return reservationRepository.findById(reservationId);
     }
 
-    public void cancelReservation(Long reservationId) {
-        reservationRepository.deleteById(reservationId);
+    public String cancelReservation(int reservationId) {
+        return reservationRepository.deleteReservationById(reservationId);
     }
 
-    
-    public void addToObserver(Subject tempPaymentService) {
-        this.tempPaymentServices = tempPaymentService;
-        tempPaymentService.addObserver(this); //line adds the current instance of Reservation as an observer to the tempPaymentService
-    }
 
     @Override
-    public void update(boolean PaymentState) {
-        reservation.setPaymentStatus(PaymentState);
+    public void updatePaymentStatus(boolean status ) {
+        reservation.setPaymentStatus(status);
+        // Update payment status
     }
 
+    public BigDecimal getCharge(Integer reservationId) {
+        return reservationRepository.getCharge(reservationId);
+    }
+
+
+    public boolean isRoomAvailable(List<Integer> roomIds, LocalDate Qdate) {
+        List<Reservation> reservations = showReservations();
+        for (Reservation reservation : reservations) {
+            for(Integer roomId : roomIds){
+                if (reservation.getRoomsNumber().contains(roomId))  {
+                    if (reservation.getCheckinDate().isBefore(Qdate) && reservation.getCheckoutDate().isAfter(Qdate)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }

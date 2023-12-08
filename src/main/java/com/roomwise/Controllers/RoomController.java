@@ -30,13 +30,15 @@ public class RoomController {
         return roomService.getRoom(roomNumber);
     }
 
-    public void addRoom(Room room){
+    @PutMapping("/add-room")
+    public void addRoom(@RequestBody Room room){
         roomService.addRoom(room);
     }
 
-//    public void updateRoom(Room room, int id){
-//        roomService.updateRoom(room, id);
-//    }
+    @PutMapping("/update-room/{id}")
+    public void updateRoom (@RequestBody Room room, @PathVariable int id){
+        roomService.updateRoom(room, id);
+    }
 
     @DeleteMapping("/remove-room/{roomNumber}")
     public void deleteRoom(@PathVariable("roomNumber") int roomNumber){

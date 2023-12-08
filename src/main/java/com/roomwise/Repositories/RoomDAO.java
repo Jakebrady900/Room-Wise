@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class RoomRepository {
-    List<Room> RoomDB = new ArrayList<>();
+public class RoomDAO {
+    private final List<Room> RoomDB = new ArrayList<>();
     //CRUD
 
     public void save(Room room) {
@@ -29,7 +29,7 @@ public class RoomRepository {
         return null;
     }
 
-    public void updateRoom(int roomNumber, Room updatedRoom) {
+    public void updateRoom(Room updatedRoom, int roomNumber) {
         for (Room room : RoomDB) {
             if (room.getRoomNumber() == roomNumber) {
                 String temp_ID =  room.getId();

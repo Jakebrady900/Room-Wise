@@ -1,43 +1,47 @@
 package com.roomwise.Models;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-//import java.util.Collection;
-//import java.util.List;
 
-
-//import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-//import jakarta.persistence.EnumType;
-//import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
+import com.roomwise.Services.IdService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
-@Data
+@Component
 @AllArgsConstructor
-@Entity
-
+@Getter @Setter
 public class Payment {
 
-    @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long paymentId;
-
- 	private Long reservationId;
+	private Integer paymentId;
 
  	private LocalDate paymentDate;
 
- 	private double amount;
+ 	private BigDecimal amount;
 
 	private boolean paymentStatus;
 
+	public Payment(Integer paymentId, LocalDate paymentDate, double amount){
+		this.paymentId = paymentId;
+        this.paymentDate = paymentDate;
+		this.amount = BigDecimal.valueOf(amount);
+	}
+
+	public Payment(Integer paymentId){
+		this.paymentId = paymentId;
+	}
+
+	public boolean getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public Payment() {
+		paymentId = IdService.getNextPaymentID();
+	}
+
+	//connect to rest of the app
 
 
-	 
-	//connect to rest of the app  
-
-    
 }

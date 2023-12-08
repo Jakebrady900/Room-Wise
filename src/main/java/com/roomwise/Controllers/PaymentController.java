@@ -7,16 +7,20 @@ import com.roomwise.Services.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RestController
+@RestController @Controller
 @RequestMapping("/payment")
 public class PaymentController {
-    
-    @Autowired
+
     private PaymentService paymentService;
+
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @PostMapping("/makePayment")
     public String makePayment(@RequestBody Payment payment) {
@@ -29,13 +33,7 @@ public class PaymentController {
         return paymentService.showPayments();
     }
 
-    @GetMapping("/getPayment/{id}")
-    public String getReservationByID(@PathVariable Long Id) {
-        if (paymentService.findPaymentById(Id).isPresent()) {
-            return "Paid : " + paymentService.findPaymentById(Id).get();
-        } else {
-            return "no payment made";
-        }
-    }
+    @GetMapping("/getPayment/{paymentId}")
+   public Payment getPaymentByID(@PathVariable("paymentId") int paymentId) {return paymentService.findPaymentById(paymentId);}
 
 }

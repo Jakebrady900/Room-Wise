@@ -9,9 +9,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RoomFactory {
+    /**
+     * This factory class implements the Factory Pattern, improving dependency management by centralising object creation.
+     * It promotes code scalability, flexibility, and maintenance by isolating object creation logic from client code.
+     * Through this pattern, it enables easy extension and modification, creating a more modular and manageable codebase.
+     */
 
-
-    // Factory method to create different types of rooms based on roomType
     public Room createRoom(String request) {
         if (request.equalsIgnoreCase("Single")) {
             return new Room(new SingleRoom());

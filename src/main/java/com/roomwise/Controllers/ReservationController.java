@@ -2,48 +2,55 @@ package com.roomwise.Controllers;
 
 import com.roomwise.Models.Reservation;
 import com.roomwise.Services.ReservationService;
-import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.stereotype.Controller;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-@RestController
+@RestController @Controller
 @RequestMapping("/reservations")
 public class ReservationController {
 
-    @Autowired
-    private ReservationService reservationService;
+    private final ReservationService reservationService;
 
-    @PostMapping("/makeRes")
-    public String makeReservation(@RequestBody Reservation resrvation) {
-        reservationService.saveReservation(resrvation);
-        return "saved sucessfully";
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
     }
 
-    @GetMapping("/getAllRes")
-    public List<Reservation> getAllReservation() {
+    @PostMapping("/public/makeRes")
+    public String makeReservation(@RequestBody Reservation reservation) {
+        return reservationService.saveReservation(reservation);
+
+    }
+
+    @PostMapping("/public/updateRes")
+    public String updateReservation(@RequestBody Reservation reservation) {
+        Boolean aBoolean = reservationService.updateReservation(reservation);
+        return aBoolean?"Updated successfully":"No Such Reservation";
+    }
+
+    @GetMapping("/admin/getAllRes")
+//    @PreAuthorize("hasRole('ADMIN')")
+    public List<Reservation> getAllReservation(Authentication authentication) {
+//        System.out.println(authentication.getAuthorities()); // Print user's authorities/roles
         return reservationService.showReservations();
     }
 
-    @GetMapping("/getRes/{id}")
-    public String getReservationByID(@PathVariable Long Id) {
-        if (reservationService.findReservationById(Id).isPresent()) {
-            return "reserved : " + reservationService.findReservationById(Id).get();
-        } else {
-            return "no such reservation";
-        }
+    //@PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping("/admin/getRes/{reservationId}")
+    public Reservation getReservationByID(@PathVariable("reservationId") int reservationId) {
+        return reservationService.findReservationById(reservationId);
     }
 
-    
-    @GetMapping("/cancelReservation/{id}")
-    public String cancelReservationByID(@PathVariable Long Id) {
-        if (reservationService.findReservationById(Id).isPresent()) {
-            reservationService.cancelReservation(Id);
-            return "Reservation cancelled";
-        } else {
-            return "no such reservation,";
-        }
+    //@PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping("/admin/cancelReservation/{reservationId}")
+    public String cancelReservationByID(@PathVariable("reservationId") int reservationId) {
+        return reservationService.cancelReservation(reservationId);
+    }
+
+    @RequestMapping("/admin/getCharge/{reservationId}")
+    public String getCharge(@PathVariable Integer reservationId) {
+        return reservationService.getCharge(reservationId).toString();
     }
 }
