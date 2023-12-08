@@ -14,11 +14,6 @@ public class RoomFactory {
      * It promotes code scalability, flexibility, and maintenance by isolating object creation logic from client code.
      * Through this pattern, it enables easy extension and modification, creating a more modular and manageable codebase.
      */
-    public class YourFactoryClassName {
-        // Your code here
-    }
-
-
 
     public Room createRoom(String request) {
         if (request.equalsIgnoreCase("Single")) {

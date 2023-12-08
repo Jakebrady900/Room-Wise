@@ -9,13 +9,12 @@ import java.math.BigDecimal;
 
 @Getter @Setter
 public class StandardRoom implements RoomClassification {
-    private BigDecimal _charge = BigDecimal.valueOf(0);
 
     @Override
     public BigDecimal getCharge(RoomType roomType) {
         BigDecimal Charge;
 
-        Charge = get_charge();
+        Charge = BigDecimal.valueOf(0);
         for (Content content : roomType.get_roomContents()) {
             Charge = Charge.add(content.getCost());
         }
