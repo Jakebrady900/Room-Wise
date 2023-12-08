@@ -8,7 +8,7 @@ import com.roomwise.Room.RoomType.TwinRoom;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RoomFactory {
+public abstract class RoomFactory {
     /**
      * This factory class implements the Factory Pattern, improving dependency management by centralising object creation.
      * It promotes code scalability, flexibility, and maintenance by isolating object creation logic from client code.
@@ -17,15 +17,17 @@ public class RoomFactory {
 
     public Room createRoom(String request) {
         if (request.equalsIgnoreCase("Single")) {
-            return new Room(new SingleRoom());
+            return new SingleRoomFactory().doCreate();
         } else if (request.equalsIgnoreCase("Double")) {
-            return new Room(new DoubleRoom());
+            return new TwinRoomFactory().doCreate();
         } else if (request.equalsIgnoreCase("Twin")) {
-            return new Room(new TwinRoom());
+            return new DoubleRoomFactory().doCreate();
         } else if (request.equalsIgnoreCase("Family")) {
-            return new Room(new FamilyRoom());
+            return new FamilyRoomFactory().doCreate();
         } else {
             return null; // Handle unsupported room types
         }
     }
+
+    public abstract Room doCreate();
 }
