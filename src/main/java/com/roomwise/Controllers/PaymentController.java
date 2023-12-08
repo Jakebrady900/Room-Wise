@@ -22,9 +22,9 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    @PostMapping("/makePayment")
-    public String makePayment(@RequestBody Payment payment) {
-        paymentService.makePayment(payment);
+    @PostMapping("/makePayment/{paymentId}")
+    public String makePayment(@PathVariable Integer paymentId) {
+        paymentService.makePayment(paymentId);
         return "Payment sucessful";
     }
 

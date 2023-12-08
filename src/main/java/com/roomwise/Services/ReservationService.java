@@ -35,11 +35,11 @@ public class ReservationService implements Observer  {
     }
     public void saveReservation(Reservation reservation) {
         reservation.setReservationId(IdService.getNextReservationID());
-        reservation.setPaymentId(IdService.getNextPaymentID());
+        Payment payment = paymentService.createPayment();
+        reservation.setPaymentId(payment.getPaymentId());
         this.paymentId = reservation.getPaymentId();
         this.reservation = reservation;
-        Payment payment = new Payment(paymentId);
-        paymentService.makePayment(payment);
+        paymentService.makePayment(paymentId);
         reservationRepository.save(reservation);
     }
     public Boolean updateReservation(Reservation reservation) {

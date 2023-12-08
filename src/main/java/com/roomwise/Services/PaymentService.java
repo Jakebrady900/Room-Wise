@@ -30,17 +30,23 @@ public class PaymentService implements Subject{
     }
 
 
-    public void makePayment(Payment payment) {
-
+    public void makePayment(Integer PaymentId) {
+        Payment payment = paymentRepository.findById(PaymentId);
+        payment.setPaymentStatus(true); // Integrate an external payment gateway here
         paymentStatus = payment.getPaymentStatus();
         paymentStrategy.executePayment(payment);
         reservationPaymentId = payment.getPaymentId();
-        paymentRepository.save(payment);
-        notifyObservers();   // Notify observers about the payment status change
+        notifyObservers();
     }
 
     public List<Payment> showPayments() {
         return paymentRepository.findAll();
+    }
+
+    public Payment createPayment() {
+        Payment payment = new Payment();
+        paymentRepository.save(payment);
+        return payment;
     }
 
    
