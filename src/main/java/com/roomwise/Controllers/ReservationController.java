@@ -8,47 +8,49 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController @Controller
+@RestController
+@Controller
 @RequestMapping("/reservations")
 public class ReservationController {
 
     private final ReservationService reservationService;
 
     public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
+        this.reservationService = reservationService;   //
     }
 
+    // Endpoint to make a new reservation
     @PostMapping("/public/makeRes")
     public String makeReservation(@RequestBody Reservation reservation) {
         return reservationService.saveReservation(reservation);
-
     }
 
+    // Endpoint to update an existing reservation
     @PostMapping("/public/updateRes")
     public String updateReservation(@RequestBody Reservation reservation) {
         Boolean aBoolean = reservationService.updateReservation(reservation);
-        return aBoolean?"Updated successfully":"No Such Reservation";
+        return aBoolean ? "Updated successfully" : "No Such Reservation";
     }
 
+    // Endpoint to retrieve all reservations
     @GetMapping("/admin/getAllRes")
-//    @PreAuthorize("hasRole('ADMIN')")
     public List<Reservation> getAllReservation() {
-//        System.out.println(authentication.getAuthorities()); // Print user's authorities/roles
         return reservationService.showReservations();
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
+    // Endpoint to get a specific reservation by ID
     @RequestMapping("/admin/getRes/{reservationId}")
     public Reservation getReservationByID(@PathVariable("reservationId") int reservationId) {
         return reservationService.findReservationById(reservationId);
     }
 
-    //@PreAuthorize("hasRole('ADMIN')")
+    // Endpoint to cancel a reservation by ID
     @RequestMapping("/admin/cancelReservation/{reservationId}")
     public String cancelReservationByID(@PathVariable("reservationId") int reservationId) {
         return reservationService.cancelReservation(reservationId);
     }
 
+    // Endpoint to get the charge for a reservation by ID
     @RequestMapping("/admin/getCharge/{reservationId}")
     public String getCharge(@PathVariable Integer reservationId) {
         return reservationService.getCharge(reservationId).toString();
