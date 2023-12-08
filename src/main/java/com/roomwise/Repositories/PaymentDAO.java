@@ -16,10 +16,14 @@ public class PaymentDAO {
 
 
 
-    public void save(Payment payment) {
-        PaymentDB.add(payment);
-    }
+public void save(Payment payment) {
+        if(findById(payment.getPaymentId())!=null) {
+            updatePayment(payment);
+        }else{
+            PaymentDB.add(payment);
+        }//change this to a specific id payment instead of a new payment creation.
 
+    }
     public List<Payment> findAll() {
         return PaymentDB;
     }
@@ -31,6 +35,17 @@ public class PaymentDAO {
             }
         }
         return null;
+    }
+
+    public void updatePayment(Payment updatedPayment) {
+        for (int i = 0; i < PaymentDB.size(); i++) {
+            Payment payment = PaymentDB.get(i);
+            if (payment.getPaymentId().equals(updatedPayment.getPaymentId())) {
+                PaymentDB.set(i, updatedPayment);
+                // Updated successfully
+            }
+        }
+        // Item not found
     }
 }
 
