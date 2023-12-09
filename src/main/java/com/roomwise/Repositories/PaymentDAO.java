@@ -4,6 +4,7 @@ package com.roomwise.Repositories;
 import com.roomwise.Models.Payment;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class PaymentDAO {
 
 public void save(Payment payment) {
         if(findById(payment.getPaymentId())!=null) {
+            payment.setPaymentDate(LocalDate.now());    // Setting the payment date to the time when the payment was received
             updatePayment(payment);
         }else{
             PaymentDB.add(payment);
