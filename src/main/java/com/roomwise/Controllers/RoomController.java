@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/room-wise/")
 public class RoomController {
+    /**
+     * The RoomController class is responsible for handling all the requests that are related to the Room entity.
+     * It is responsible for handling the requests and sending the response back to the view...
+     *      which is simulated by Postman in this case.
+     * The RoomController delegates the requests to the RoomService class.
+     */
 
     private final RoomService roomService;
 

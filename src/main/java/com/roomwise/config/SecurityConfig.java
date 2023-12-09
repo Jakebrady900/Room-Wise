@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.roomwise.Models.Customer;
 import com.roomwise.Repositories.CustomerDAO;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,24 +43,26 @@ import static org.springframework.security.config.Customizer.*;
 
 @Configuration
 @EnableWebSecurity @EnableMethodSecurity
+@AllArgsConstructor
 public class SecurityConfig{
+    /**
+     * This class is responsible for configuring the security of the application.
+     */
 
+
+    // This is the record that stores the RSA public and private keys.
     private final RsaKeyProperties jwtConfigProperties;
 
 
-    public SecurityConfig(RsaKeyProperties jwtConfigProperties) {
-        this.jwtConfigProperties = jwtConfigProperties;
-    }
-
     @Bean
     public InMemoryUserDetailsManager users(CustomerDAO customerRepository) {
-        List<Customer> customers = customerRepository.getCustomers(); // Fetch all customers
+        List<Customer> customers = customerRepository.getCustomers(); // Fetch all customers from customer Repo
 
         List<UserDetails> userDetailsList = new ArrayList<>();
 
         for (Customer customer : customers) {
             userDetailsList.add(User.withUsername(customer.getUsername()).password("{noop}" + customer.getPassword()).authorities("read").build());
-        }
+        } // Add all customers to userDetailsList which gives them access to the API
         userDetailsList.add(User.withUsername("admin").password("{noop}password").authorities("read").build());
         System.out.println(userDetailsList);
         return new InMemoryUserDetailsManager(userDetailsList);
@@ -68,7 +71,7 @@ public class SecurityConfig{
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
-    SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain tokenSecurityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .securityMatcher(new AntPathRequestMatcher("/token"))
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
@@ -81,31 +84,6 @@ public class SecurityConfig{
                 .httpBasic(withDefaults())
                 .build();
     }
-
-    @Bean
-    JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(jwtConfigProperties.publicKey()).build();
-    }
-
-    @Bean
-    JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(jwtConfigProperties.publicKey()).privateKey(jwtConfigProperties.privateKey()).build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-        return new NimbusJwtEncoder(jwks);
-    }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("https://localhost:3000"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowedMethods(List.of("GET"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -121,6 +99,19 @@ public class SecurityConfig{
                 .build();
     }
 
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        // This is the JWT decoder that will be used to decode the JWT tokens. Requires the RsaKeyProperties record.
+        return NimbusJwtDecoder.withPublicKey(jwtConfigProperties.publicKey()).build();
+    }
+
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        // This is the JWT encoder that will be used to encode the JWT tokens. Requires the RsaKeyProperties record.
+        JWK jwk = new RSAKey.Builder(jwtConfigProperties.publicKey()).privateKey(jwtConfigProperties.privateKey()).build();
+        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        return new NimbusJwtEncoder(jwks);
+    }
 
 
 }

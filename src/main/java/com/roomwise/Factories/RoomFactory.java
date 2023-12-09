@@ -1,14 +1,10 @@
-package com.roomwise.Room.Factories;
+package com.roomwise.Factories;
 
 import com.roomwise.Models.Room;
-import com.roomwise.Room.RoomType.DoubleRoom;
-import com.roomwise.Room.RoomType.FamilyRoom;
-import com.roomwise.Room.RoomType.SingleRoom;
-import com.roomwise.Room.RoomType.TwinRoom;
 import org.springframework.stereotype.Component;
 
 @Component
-public abstract class RoomFactory {
+public class RoomFactory {
     /**
      * This factory class implements the Factory Pattern, improving dependency management by centralising object creation.
      * It promotes code scalability, flexibility, and maintenance by isolating object creation logic from client code.
@@ -29,5 +25,10 @@ public abstract class RoomFactory {
         }
     }
 
-    public abstract Room doCreate();
+    // This method is overridden by the concrete factories.
+    // It is considered the factory method.
+    public Room doCreate() {
+        return null;
+    }
+
 }

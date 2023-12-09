@@ -15,6 +15,11 @@ import java.util.stream.Collectors;
 @Service
 public class TokenService {
 
+    /**
+     * This class is used to generate a JWT security token for a user when logging in.
+     * It is used to authenticate the user when making requests to the API.
+     */
+
     private final JwtEncoder encoder;
 
     public TokenService(JwtEncoder encoder) {

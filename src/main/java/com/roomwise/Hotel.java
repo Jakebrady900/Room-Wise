@@ -1,29 +1,23 @@
 package com.roomwise;
 
-import com.roomwise.Controllers.CustomerController;
 import com.roomwise.Controllers.RoomController;
-import com.roomwise.Models.Customer;
-import com.roomwise.Repositories.CustomerDAO;
-import com.roomwise.Room.Factories.*;
-import com.roomwise.Room.RoomType.Content;
+import com.roomwise.Factories.RoomFactory;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class Hotel {
+    /**
+     * This class is responsible for instantiating some rooms and adding them to the DB on startup.
+     * It creates one of each room type to allow for reservations be created against those rooms.
+     */
+
     private final RoomFactory roomFactory;
     private final RoomController roomController;
-    private final CustomerController customerController;
 
-    @Autowired
-    public Hotel(RoomFactory roomFactory, RoomController roomController, CustomerController customerController) {
+    public Hotel(RoomFactory roomFactory, RoomController roomController) {
         this.roomFactory = roomFactory;
         this.roomController = roomController;
-        this.customerController = customerController;
     }
 
     @PostConstruct

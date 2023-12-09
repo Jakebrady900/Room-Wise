@@ -13,12 +13,11 @@ import java.util.List;
 @Getter @Setter
 public abstract class RoomType {
     /**
-        RoomType is an object composing the Room object, which determine the room size.
-        RoomType has four concrete implementations; Single, Twin, Double, and Family.
-        RoomType is composed of a list of roomContents, the capacity of the room, and the base price.
-        RoomType is also a composition of the roomClassification object, which determines the mechanics of
-                the costs for each item in the room contents list.
+     * RoomType is the abstract class that all room types inherit from.
+     * It is used to define the base price, capacity and room contents of a room. It also encapulates the room classification.
+     * The RoomType class represents the Abstraction in the Bridge Design pattern.
      */
+
     private RoomClassification _roomClassification;
     private List<Content> _roomContents;
     private Integer _capacity;

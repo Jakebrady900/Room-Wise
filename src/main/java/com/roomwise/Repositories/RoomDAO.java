@@ -9,6 +9,13 @@ import java.util.List;
 
 @Repository
 public class RoomDAO {
+    /**
+     * The RoomDAO is the Data Access Object for the Room entity, also called the Repository.
+     * It is used to store the data (a List in this case), usually a database is used.
+     * It handles the data manipulation requests coming from the RoomService class.
+     * No business logic is present in this class.
+     */
+
     private final List<Room> RoomDB = new ArrayList<>();
     //CRUD
 
