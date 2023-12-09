@@ -61,7 +61,7 @@ public abstract class RoomType {
     }
 
     public String getInfo() {
-        return  "Room Class: " + get_roomClassification() + "<br>" +
+        return  "Room Class: " + get_roomClassification().getClass().getSimpleName() + "<br>" +
                 "Room Capacity: " + get_capacity() + "<br>" +
                 "Base Price: " + get_basePrice() + "<br>" +
                 "Room Contents: " + get_roomContents() + "<br>";

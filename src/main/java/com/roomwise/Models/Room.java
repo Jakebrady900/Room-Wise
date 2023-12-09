@@ -35,7 +35,7 @@ public class Room {
     }
 
     public String displayInfo() {
-        return "Room Type: " + getRoomType() + "<br>" +
+        return "Room Type: " + getRoomType().getClass().getSimpleName() + "<br>" +
                 "_".repeat(50) + "<br>" +
                 "Room Number: " + getRoomNumber() + "<br>" +
                 getRoomType().getInfo() + "<br>" +

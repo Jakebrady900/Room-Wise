@@ -27,13 +27,18 @@ public class RoomController {
     }
 
     @RequestMapping("/rooms")
-    public List<Room> getRooms(){
-        return roomService.getRooms();
+    public String getRooms(){
+        StringBuilder returnStr = new StringBuilder();
+        List<Room> rooms = roomService.getRooms();
+        for (Room room : rooms){
+            returnStr.append(room.displayInfo());
+        }
+        return returnStr.toString();
     }
 
     @RequestMapping("/room/{roomNumber}")
-    public Room getRoom(@PathVariable("roomNumber") int roomNumber){
-        return roomService.getRoom(roomNumber);
+    public String getRoom(@PathVariable("roomNumber") int roomNumber){
+        return roomService.getRoom(roomNumber).displayInfo();
     }
 
     @PutMapping("/add-room")
