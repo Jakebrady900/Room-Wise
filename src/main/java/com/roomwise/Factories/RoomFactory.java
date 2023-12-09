@@ -27,7 +27,7 @@ public class RoomFactory {
 
     // This method is overridden by the concrete factories.
     // It is considered the factory method.
-    public Room doCreate() {
+    private Room doCreate() {
         return null;
     }
 

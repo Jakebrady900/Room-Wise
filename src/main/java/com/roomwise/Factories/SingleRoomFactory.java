@@ -3,9 +3,9 @@ package com.roomwise.Factories;
 import com.roomwise.Models.Room;
 import com.roomwise.Room.RoomType.SingleRoom;
 
-public class SingleRoomFactory extends RoomFactory {
+class SingleRoomFactory extends RoomFactory {
 
-    public Room doCreate() {
+    protected Room doCreate() {
         return new Room(new SingleRoom());
     }
 }

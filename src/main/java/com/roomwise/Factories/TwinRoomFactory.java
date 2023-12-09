@@ -3,9 +3,9 @@ package com.roomwise.Factories;
 import com.roomwise.Models.Room;
 import com.roomwise.Room.RoomType.TwinRoom;
 
-public class TwinRoomFactory extends RoomFactory {
+class TwinRoomFactory extends RoomFactory {
 
-    public Room doCreate() {
+    protected Room doCreate() {
         return new Room(new TwinRoom());
     }
 }
