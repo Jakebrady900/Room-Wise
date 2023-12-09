@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@RestController @Controller
+@RestController 
+@Controller
 @RequestMapping("/payment")
 public class PaymentController {
 
@@ -22,18 +23,24 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
+    // Endpoint to handle payment creation
     @PostMapping("/makePayment")
     public String makePayment(@RequestBody Payment payment) {
         paymentService.makePayment(payment);
         return "Payment sucessful";
     }
 
+    // Endpoint to retrieve all payments
+
     @GetMapping("/getAllPayment")
     public List<Payment> getAllPayments() {
         return paymentService.showPayments();
     }
 
+    // Endpoint to retrieve payment by ID
+
     @GetMapping("/getPayment/{paymentId}")
-   public Payment getPaymentByID(@PathVariable("paymentId") int paymentId) {return paymentService.findPaymentById(paymentId);}
+   public Payment getPaymentByID(@PathVariable("paymentId") int paymentId) {
+    return paymentService.findPaymentById(paymentId);}
 
 }
