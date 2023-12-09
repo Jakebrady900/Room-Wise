@@ -15,7 +15,8 @@ import java.util.List;
 public class ReservationService implements Observer {
 
     private ReservationDAO reservationRepository;
-    private Reservation reservation;
+
+//    private Reservation reservation;
     private PaymentService paymentService;
     private boolean paymentStatus;
     private Integer paymentId;
@@ -23,8 +24,7 @@ public class ReservationService implements Observer {
     private CustomerService customerService;
 
     // Constructor injecting dependencies
-    public ReservationService(ReservationDAO reservationRepository, PaymentService paymentService,
-                              RoomService roomService, CustomerService customerService) {
+    public ReservationService(ReservationDAO reservationRepository, PaymentService paymentService,RoomService roomService, CustomerService customerService) {
         this.reservationRepository = reservationRepository;
         this.paymentService = paymentService;
         this.paymentService.addObserver(this); // Subscribe to payment observer
