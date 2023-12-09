@@ -30,23 +30,23 @@ public class CustomerController {
         return customerService.showCustomers();
     }
 
-    @GetMapping("/updateCustomer/")
+    @RequestMapping("/updateCustomer")
     public String updateCustomer(@RequestBody Customer customer) {
         boolean CustomerUpd = customerService.updateCustomer(customer);
         return CustomerUpd?"Updated successfully":"No Such Customer";
     }
-    @GetMapping("/getCustomer/{id}")
+    @RequestMapping("/getCustomer/{id}")
     public Customer getCustomerByID(@PathVariable("customerId") int customerId) {
         return customerService.findCustomerById(customerId);
     }
 
-    @GetMapping("/deleteCustomer/{customerId}")
+    @RequestMapping("/deleteCustomer/{customerId}")
     public String deleteCustomerByID(@PathVariable int customerId) {
             return customerService.deleteCustomer(customerId);
     }
 
      //Admin
-     @GetMapping("/SendNotification/{customerId}/{message}")
+     @RequestMapping("/SendNotification/{customerId}/{message}")
      public String sendNotification(@PathVariable("customerId") Integer customerId, @PathVariable("message") String message) {
          // Retrieve customer by ID from the database
          Customer customer = customerService.findCustomerById(customerId);
