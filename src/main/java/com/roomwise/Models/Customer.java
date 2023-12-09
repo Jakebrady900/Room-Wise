@@ -24,7 +24,8 @@ public class Customer {
 
 	private String username;
 	private String password;
-
+	
+	// Here i am initialising constructors and declaring variables
 	public Customer() {
 		customerId = IdService.getNextCustomerID();
 	}

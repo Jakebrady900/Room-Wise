@@ -11,25 +11,30 @@ import java.util.Optional;
 @Repository
 public class CustomerDAO {
 
+    // Database representation: list to store customers
     List<Customer> CustomerDB = new ArrayList<>();
 
+     // Method to save a customer to the database
     public void save(Customer customer) {
         CustomerDB.add(customer);
     }
 
+    // Method to retrieve all customers from the database
     public List<Customer> getCustomers() {
         return CustomerDB;
     }
 
+     // Method to find a customer by their ID in the database
     public Customer findById(int customerId) {
         for (Customer customer : CustomerDB) {
             if (customer.getCustomerId() == customerId) {
                 return customer;
             }
         }
-        return null;
+        return null;//customer not found
     }
 
+     // Method to delete a customer by their ID from the database
     public String deleteById(int customerId) {
        for(Customer customer : CustomerDB){
            if(customer.getCustomerId() == customerId){
@@ -40,6 +45,7 @@ public class CustomerDAO {
        return "No Such Customer";
     }
 
+     // Method to update customer information in the database
     public boolean updateCustomer(Customer customerUpdate) {
         for (int i = 0; i < CustomerDB.size(); i++) {
             Customer customer = CustomerDB.get(i);
